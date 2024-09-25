@@ -2,13 +2,17 @@ import cv2
 import numpy as np
 
 # Read the main image
-img_rgb = cv2.imread('Croppedandperspectivecorrectedboards/12.jpg')
+img_rgb = cv2.imread('Croppedandperspectivecorrectedboards/1.jpg')
 
 # Convert it to grayscale
 img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
 
 # Read the template
-template = cv2.imread('Crown.png', 0)
+template = cv2.imread('Crown.png', cv2.IMREAD_GRAYSCALE)
+
+template = cv2.GaussianBlur(template, (3, 3), 10)
+
+cv2.imshow('crown_blur', template)
 
 # Store width and height of template in w and h
 w, h = template.shape[::-1]
@@ -17,7 +21,7 @@ w, h = template.shape[::-1]
 res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
 
 # Specify a threshold
-threshold = 0.4
+threshold = 0.6
 
 # Store the coordinates of matched area in a numpy array
 loc = np.where(res >= threshold)
