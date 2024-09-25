@@ -2,7 +2,8 @@ import cv2
 import numpy as np
 
 # Read the main image
-img_rgb = cv2.imread('Croppedandperspectivecorrectedboards/4.jpg')
+
+img_rgb = cv2.imread('Croppedandperspectivecorrectedboards/5.jpg')
 
 # Convert it to grayscale
 img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
