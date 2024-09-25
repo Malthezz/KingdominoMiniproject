@@ -11,7 +11,7 @@ img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
 # Read the template
 template = cv2.imread('Crown.png', cv2.IMREAD_GRAYSCALE)
 
-# best current results (30,30) and (3,3) and thresh = 7
+# best current results (30,30) and (3,3) and thresh = 7!!
 template = cv2.resize(template, (30,30))
 template = cv2.GaussianBlur(template, (3, 3), 10,10,10, cv2.BORDER_DEFAULT)
 
