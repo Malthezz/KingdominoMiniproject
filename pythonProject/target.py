@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 
 # Read the main image
+
 img_rgb = cv2.imread('Croppedandperspectivecorrectedboards/5.jpg')
 
 # Convert it to grayscale
