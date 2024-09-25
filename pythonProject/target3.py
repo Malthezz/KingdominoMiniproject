@@ -12,13 +12,17 @@ images_files = [
 
 # List of template file names
 template_files = [
+    "1_Krone_Skov.jpg",
+    "1_Krone_Skov_90.jpg",
+    "1_Krone_Skov_180.jpg",
+    "1_Krone_Skov_280.jpg",
+
     "1_Krone1_Desert.jpg",
     "1_Krone1_Grass.jpg",
     "1_Krone2_Desert.jpg",
     "1_Krone2_Grass.jpg",
     "1_Krone3_Desert.jpg",
     "1_Krone3_Grass.jpg",
-    "1_Krone_Skov.jpg",
     "1_Krone_Water.jpg"
 ]
 
