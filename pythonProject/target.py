@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from numpy.ma.core import append
 
 # Read the main image
 images_files = [
@@ -36,6 +37,7 @@ templates = []
 
 for template_file in template_files:
     template = cv2.imread(template_file, cv2.IMREAD_GRAYSCALE)
+    template = cv2.rotate(template, cv2.ROTATE_90_CLOCKWISE)
     templates.append(template)
 
 # best current results (30,30) and (3,3) and thresh = 7!!
@@ -56,9 +58,24 @@ threshold = 0.6
 # Store the coordinates of matched area in a numpy array
 loc = np.where(res >= threshold)
 
+rectangle_coords = []
+
 # Draw a rectangle around the matched region.
 for pt in zip(*loc[::-1]):
     cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 255, 255), 2)
+
+    # Define the rectangle points
+    top_left = pt
+    top_right = pt
+    bottom_left = (pt[0], pt[1] + h)
+    bottom_right = (pt[0] + w, pt[1] + h)
+
+    rectangle_coords.append([top_left[0], top_right[1], bottom_left[0], bottom_right[1]])
+
+rectangle_coords_np = np.array(rectangle_coords)
+
+print("Rectangle Coordinates:", rectangle_coords_np)
+
 
 # Show the final image with the matched area.
 cv2.imshow('Detected', img_rgb)
