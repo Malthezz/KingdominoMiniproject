@@ -8,12 +8,29 @@ img_rgb = cv2.imread('Croppedandperspectivecorrectedboards/5.jpg')
 # Convert it to grayscale
 img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
 
-# Read the template
-template = cv2.imread('Crown.png', cv2.IMREAD_GRAYSCALE)
+# List of template file names
+template_files = [
+    "1_Krone1_Desert.jpg",
+    "1_Krone1_Grass.jpg",
+    "1_Krone2_Desert.jpg",
+    "1_Krone2_Grass.jpg",
+    "1_Krone3_Desert.jpg",
+    "1_Krone3_Grass.jpg",
+    "1_Krone_Skov.jpg",
+    "1_Krone_Water.jpg"
+]
+
+# List to store the grayscale templates
+templates = []
+
+# Read each template in grayscale and append to the list
+for template_file in template_files:
+    template = cv2.imread(template_file, cv2.IMREAD_GRAYSCALE)
+    templates.append(template)
 
 # best current results (30,30) and (3,3) and thresh = 7!!
-template = cv2.resize(template, (30,30))
-template = cv2.GaussianBlur(template, (3, 3), 10,10,10, cv2.BORDER_DEFAULT)
+# template = cv2.resize(template, (30,30))
+# template = cv2.GaussianBlur(template, (3, 3), 10,10,10, cv2.BORDER_DEFAULT)
 
 cv2.imshow('crown_blur', template)
 
