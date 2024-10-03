@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+
 # Function to assign labels based on HSV value
 def label_color(hsv_value, has_structure=False):
     h, s, v = hsv_value
@@ -36,6 +37,7 @@ def label_color(hsv_value, has_structure=False):
     # Return Unknown for values that don't fit any category
     else:
         return "Unknown"
+
 
 # 0
 grass_count = 0
@@ -76,7 +78,7 @@ for row in range(rows):
         label = label_color(avg_color)
 
         # Define ROI size (example: 50x50 pixels)
-        roi_size = 50
+        roi_size = 100
         center_x = (x_start + x_end) // 2
         center_y = (y_start + y_end) // 2
 
@@ -86,14 +88,23 @@ for row in range(rows):
         roi_y_start = max(center_y - roi_size // 2, 0)
         roi_y_end = min(center_y + roi_size // 2, height)
 
-        # Extract the ROI
-        roi = img[y_start:y_end, x_start:x_end][roi_y_start:roi_y_end, roi_x_start:roi_x_end]
+        if roi_x_start < roi_x_end and roi_y_start < roi_y_end:
+            # Extract the ROI
+            roi = img[roi_y_start:roi_y_end, roi_x_start:roi_x_end]
+
+        # Optional: Display or process the ROI as needed
+        # For example, you can show the ROI (comment out if you don't want to display)
+        cv2.imshow(f'ROI ({row}, {col})', roi)
+        cv2.waitKey(20)
+    else:
+        print(f"Invalid ROI for cube ({row}, {col})")
+
 
         # Store the result
         cube_labels.append(((row, col), label))
         print(f"Cube at position ({row}, {col}) labeled as {label}")
 
-# Move the label counting code inside the loop
+        # Move the label counting code inside the loop
         if label == "Grass":
             grass_count += 1
         elif label == "Forest":
@@ -111,8 +122,8 @@ for row in range(rows):
         elif label == "Unknown":
             unknown += 1
 
-# Example output: cube_labels contains the positions and corresponding predicted labels
-# Output the counts for each label
+    # Example output: cube_labels contains the positions and corresponding predicted labels
+    # Output the counts for each label
     print(f"Total Grass: {grass_count}")
     print(f"Total Forest: {forest_count}")
     print(f"Total Wheat: {wheat_count}")
