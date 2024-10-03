@@ -34,7 +34,7 @@ def label_color(hsv_value, has_structure=False):
 
 
 # Load and process the image
-image_path = 'Croppedandperspectivecorrectedboards/1.jpg'
+image_path = 'Croppedandperspectivecorrectedboards/2.jpg'
 img = cv2.imread(image_path)
 img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
 
