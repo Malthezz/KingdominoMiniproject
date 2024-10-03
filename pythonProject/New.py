@@ -35,7 +35,7 @@ def label_color(hsv_value, has_structure=False):
 
     # Return Unknown for values that don't fit any category
     else:
-        return "Unknown"
+        return "Castle"
 
 # 0
 grass_count = 0
@@ -45,7 +45,7 @@ mines_count = 0
 rock_count = 0
 water_count = 0
 sand_count = 0
-unknown = 0
+castle = 0
 
 # Load and process the image
 image_path = 'Croppedandperspectivecorrectedboards/2.jpg'
@@ -94,8 +94,8 @@ for row in range(rows):
             water_count += 1
         elif label == "Sand":
             sand_count += 1
-        elif label == "Unknown":
-            unknown += 1
+        elif label == "Castle":
+            castle += 1
 
 # Example output: cube_labels contains the positions and corresponding predicted labels
 # Output the counts for each label
@@ -106,6 +106,6 @@ for row in range(rows):
     print(f"Total Rock: {rock_count}")
     print(f"Total Water: {water_count}")
     print(f"Total Sand: {sand_count}")
-    print(f"Total Unknown: {unknown}")
+    print(f"Total Castle: {castle}")
 cv2.imshow('Detected', img_hsv)
 cv2.waitKey(0)
