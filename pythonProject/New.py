@@ -26,12 +26,21 @@ def label_color(hsv_value, has_structure=False):
 
     # Adjusted ranges for Forrest
     elif (h >= 35 and h <= 50) and (s >= 100 and s <= 200) and (v >= 40 and v <= 100):
-        return "Forrest"
+        return "Forest"
 
     # Return Unknown for values that don't fit any category
     else:
         return "Unknown"
 
+# 0
+grass_count = 0
+forest_count = 0
+wheat_count = 0
+mines_count = 0
+rock_count = 0
+water_count = 0
+sand_count = 0
+unknown = 0
 
 # Load and process the image
 image_path = 'Croppedandperspectivecorrectedboards/1.jpg'
@@ -65,6 +74,33 @@ for row in range(rows):
         cube_labels.append(((row, col), label))
         print(f"Cube at position ({row}, {col}) labeled as {label}")
 
+# Move the label counting code inside the loop
+        if label == "Grass":
+            grass_count += 1
+        elif label == "Forest":
+            forest_count += 1
+        elif label == "Wheat":
+            wheat_count += 1
+        elif label == "Mines":
+            mines_count += 1
+        elif label == "Rock":
+            rock_count += 1
+        elif label == "Water":
+            water_count += 1
+        elif label == "Sand":
+            sand_count += 1
+        elif label == "Unknown":
+            unknown += 1
+
 # Example output: cube_labels contains the positions and corresponding predicted labels
+# Output the counts for each label
+    print(f"Total Grass: {grass_count}")
+    print(f"Total Forest: {forest_count}")
+    print(f"Total Wheat: {wheat_count}")
+    print(f"Total Mines: {mines_count}")
+    print(f"Total Rock: {rock_count}")
+    print(f"Total Water: {water_count}")
+    print(f"Total Sand: {sand_count}")
+    print(f"Total Unknown: {unknown}")
 cv2.imshow('Detected', img_hsv)
 cv2.waitKey(0)
