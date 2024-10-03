@@ -6,17 +6,17 @@ def label_color(hsv_value, has_structure=False):
     h, s, v = hsv_value
 
     # Adjusted ranges for Water
-    if (h >= 20 and h <= 100) and (s >= 200 and s <= 255) and (v >= 100 and v <= 255):
+    if (h >= 70 and h <= 110) and (s >= 190 and s <= 255) and (v >= 120 and v <= 190):
         if has_structure:
             return "Under Structure"  # or "Obstructed Water"
         return "Water"
 
     # Adjusted ranges for Sand
-    elif (h >= 20 and h <= 40) and (s >= 100 and s <= 255) and (v >= 50 and v <= 255):
+    elif (h >= 20 and h <= 30) and (s >= 230 and s <= 255) and (v >= 170 and v <= 255):
         return "Sand"
 
     # Adjusted ranges for Grass
-    elif (h >= 40 and h <= 50) and (s >= 100 and s <= 255) and (v >= 100 and v <= 255):
+    elif (h >= 32 and h <= 44) and (s >= 190 and s <= 220) and (v >= 120 and v <= 155):
         return "Grass"
 
     # Refined range for Rock
@@ -24,7 +24,7 @@ def label_color(hsv_value, has_structure=False):
         return "Rock"
 
     # Adjusted ranges for Forrest
-    elif (h >= 40 and h <= 50) and (s >= 100 and s <= 255) and (v >= 0 and v <= 100):
+    elif (h >= 35 and h <= 50) and (s >= 100 and s <= 200) and (v >= 40 and v <= 100):
         return "Forrest"
 
     # Return Unknown for values that don't fit any category
