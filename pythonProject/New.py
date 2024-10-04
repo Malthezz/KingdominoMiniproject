@@ -54,7 +54,7 @@ castle = 0
 table = 0
 
 # Load and process the image
-image_path = 'Croppedandperspectivecorrectedboards/5.jpg'
+image_path = 'Croppedandperspectivecorrectedboards/1.jpg'
 # Have checked 1,2,3,5,6,22,26,38
 img = cv2.imread(image_path)
 img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
