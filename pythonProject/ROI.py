@@ -3,14 +3,11 @@ import numpy as np
 
 
 # Function to assign labels based on HSV value
-def label_color(hsv_value, has_structure=False):
+def label_color(hsv_value):
     h, s, v = hsv_value
 
     # Adjusted ranges for Water
-
     if (h >= 70 and h <= 110) and (s >= 190 and s <= 255) and (v >= 120 and v <= 190):
-        if has_structure:
-            return "Under Structure"  # or "Obstructed Water"
         return "Water"
 
     # Adjusted ranges for Sand
@@ -78,7 +75,7 @@ for row in range(rows):
         label = label_color(avg_color)
 
         # Define ROI size (example: 50x50 pixels)
-        roi_size = 100
+        roi_size = 55
         center_x = (x_start + x_end) // 2
         center_y = (y_start + y_end) // 2
 
@@ -99,10 +96,10 @@ for row in range(rows):
     else:
         print(f"Invalid ROI for cube ({row}, {col})")
 
-
         # Store the result
         cube_labels.append(((row, col), label))
         print(f"Cube at position ({row}, {col}) labeled as {label}")
+
 
         # Move the label counting code inside the loop
         if label == "Grass":
@@ -121,6 +118,35 @@ for row in range(rows):
             sand_count += 1
         elif label == "Unknown":
             unknown += 1
+
+def checkROI(roi, hsv_value, threshold_percentage):
+    h, s, v = hsv_value
+    hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+    # Create a mask that identifies pixels in the color range
+    mask = cv2.inRange(hsv_roi, hsv_value)
+    # Calculate the percentage of pixels in the ROI that match the color range
+    matching_pixels = np.sum(mask > 0)
+    total_pixels = roi.shape[0] * roi.shape[1]
+    percentage = (matching_pixels / total_pixels) * 100
+
+    # Return True if percentage exceeds the threshold
+    return percentage > threshold_percentage
+
+colour_ranges = {
+        "Castle": (np.array([0,0,50]), np.array([0,0,0])),
+        "Mill": (np.array([0, 0, 50]), np.array([0, 0, 0])),
+        "Mine": (np.array([0, 0, 50]), np.array([0, 0, 0])),
+        "Red": (np.array([0, 0, 50]), np.array([0, 0, 0])),
+        "Yellow": (np.array([0, 0, 50]), np.array([0, 0, 0])),
+    }
+
+def labelROI(roi):
+    for label, colour in colour_ranges.items():
+        if checkROI(roi, hsv_value=colour, threshold_percentage=50):
+            return label
+        return "Unknown"
+
+
 
     # Example output: cube_labels contains the positions and corresponding predicted labels
     # Output the counts for each label
