@@ -75,6 +75,11 @@ for row in range(rows):
         # Predict and assign the label based on the average color
         label = label_color(avg_color)
 
+
+        # Draw a rectangle and label the color
+        cv2.rectangle(img, (x_start, y_start), (x_end, y_end), (0, 255, 0), 2)  # Draw rectangle
+        cv2.putText(img, label, (x_start + 5, y_start + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+
         # Define ROI size (example: 50x50 pixels)
         roi_size = 50
         center_x = (x_start + x_end) // 2
@@ -121,5 +126,5 @@ for row in range(rows):
     print(f"Total Water: {water_count}")
     print(f"Total Sand: {sand_count}")
     print(f"Total Unknown: {unknown}")
-cv2.imshow('Detected', img_hsv)
+cv2.imshow('Detected', img)
 cv2.waitKey(0)

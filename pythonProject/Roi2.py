@@ -59,12 +59,19 @@ for row in range(rows):
                 "Unknown": (np.array([0, 0, 0]), np.array([0, 0, 0])),
             }
 
+            # Get the label for the ROI
+            label = labelROI(roi)  # Ensure this call is correct
+
 
             def labelROI(roi):
-                for label, colour in colour_ranges.items():
-                    if checkROI(roi, colour):
-                        return label
-                return "Unknown"
+                for label, hsv_range in colour_ranges.items():
+                    if label == "Red" or label == "Red_Upper":
+                        if checkROI(roi, hsv_range):
+                            return "Red"  # Return the label if it matches
+                    else:
+                        if checkROI(roi, hsv_range):
+                            return label  # Return the label if it matches
+                return "Unknown"  # Default return value if no match found
 
             def checkROI(roi, hsv_range):
                 lower, upper = hsv_range
