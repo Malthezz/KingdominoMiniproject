@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+from numpy.ma.core import empty
+
 
 # Function to assign labels based on HSV value
 def label_color(hsv_value, has_structure=False):
@@ -7,35 +9,38 @@ def label_color(hsv_value, has_structure=False):
 
     # Adjusted ranges for Water
 
-    if (h >= 70 and h <= 110) and (s >= 190 and s <= 255) and (v >= 120 and v <= 190):
+    if (h >= 70 and h <= 110) and (s >= 190 and s <= 255) and (v >= 115 and v <= 192):
         if has_structure:
             return "Under Structure"  # or "Obstructed Water"
         return "Water"
 
     # Adjusted ranges for Sand
-    elif (h >= 20 and h <= 30) and (s >= 220 and s <= 255) and (v >= 155 and v <= 255):
+    elif (h >= 20 and h <= 30) and (s >= 217 and s <= 255) and (v >= 141 and v <= 255):
         return "Sand"
 
     # Adjusted ranges for Grass
-    elif (h >= 32 and h <= 44) and (s >= 190 and s <= 220) and (v >= 120 and v <= 155):
+    elif (h >= 32 and h <= 48) and (s >= 184 and s <= 225) and (v >= 95 and v <= 160):
         return "Grass"
 
     # Refined range for Rock
-    elif (h >= 20 and h <= 26) and (s >= 80 and s <= 165) and (v >= 80 and v <= 115):
+    elif (h >= 20 and h <= 30) and (s >= 80 and s <= 167) and (v >= 72 and v <= 118):
         return "Rock"
 
     # Adjusted ranges for Mines
-    elif (h >= 25 and h <= 40) and (s >= 100 and s <= 140) and (v >= 50 and v <= 80):
+    elif (h >= 25 and h <= 50) and (s >= 72 and s <= 140) and (v >= 50 and v <= 80):
         return "Mines"
 
     # Adjusted ranges for Forrest
-    elif (h >= 35 and h <= 50) and (s >= 100 and s <= 175) and (v >= 55 and v <= 75):
+    elif (h >= 34 and h <= 52) and (s >= 100 and s <= 200) and (v >= 40 and v <= 76):
         return "Forest"
 
+    # Adjusted ranges for Castle
+    elif (h >= 23 and h <= 52) and (s >= 70 and s <= 135) and (v >= 71 and v <= 148):
+        return "Castle"
 
     # Return Unknown for values that don't fit any category
     else:
-        return "Castle"
+        return "Table"
 
 # 0
 grass_count = 0
@@ -46,9 +51,11 @@ rock_count = 0
 water_count = 0
 sand_count = 0
 castle = 0
+table = 0
 
 # Load and process the image
-image_path = 'Croppedandperspectivecorrectedboards/2.jpg'
+image_path = 'Croppedandperspectivecorrectedboards/1.jpg'
+# Have checked 1,2,3,5,6,22,26,38
 img = cv2.imread(image_path)
 img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
 
@@ -96,6 +103,8 @@ for row in range(rows):
             sand_count += 1
         elif label == "Castle":
             castle += 1
+        elif label == "Table":
+            table += 1
 
 # Example output: cube_labels contains the positions and corresponding predicted labels
 # Output the counts for each label
@@ -107,5 +116,6 @@ for row in range(rows):
     print(f"Total Water: {water_count}")
     print(f"Total Sand: {sand_count}")
     print(f"Total Castle: {castle}")
+    print(f"Total Table: {table}")
 cv2.imshow('Detected', img_hsv)
 cv2.waitKey(0)
