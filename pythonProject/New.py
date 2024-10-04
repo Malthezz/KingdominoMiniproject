@@ -54,7 +54,7 @@ castle = 0
 table = 0
 
 # Load and process the image
-image_path = 'Croppedandperspectivecorrectedboards/1.jpg'
+image_path = 'Croppedandperspectivecorrectedboards/5.jpg'
 # Have checked 1,2,3,5,6,22,26,38
 img = cv2.imread(image_path)
 img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
@@ -85,6 +85,10 @@ for row in range(rows):
         # Store the result
         cube_labels.append(((row, col), label))
         print(f"Cube at position ({row}, {col}) labeled as {label}")
+
+        # Draw a rectangle and label the color
+        cv2.rectangle(img, (x_start, y_start), (x_end, y_end), (0, 255, 0), 2)  # Draw rectangle
+        cv2.putText(img, label, (x_start + 5, y_start + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
 # Move the label counting code inside the loop
         if label == "Grass":
@@ -117,5 +121,5 @@ for row in range(rows):
     print(f"Total Sand: {sand_count}")
     print(f"Total Castle: {castle}")
     print(f"Total Table: {table}")
-cv2.imshow('Detected', img_hsv)
+cv2.imshow('Detected', img)
 cv2.waitKey(0)
