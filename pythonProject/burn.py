@@ -2,6 +2,7 @@ from collections import deque
 
 import cv2
 import numpy as np
+from cv2 import waitKey
 from sipbuild.generator.parser.annotations import string
 
 from pythonProject.New import tileGrid, img_hsv
@@ -33,6 +34,7 @@ def ignite(tileType, y, x, grid, id):
             grid[curry][currx][2] = id
             checkConnections(tileType, queue, curry, currx, grid)
             size += 1
+
     return size
 
 # tells and counts the size of the blobs and puts an id.
@@ -48,6 +50,7 @@ def countpoints(path):
                 size = ignite(list[1], y, x, grid, currentId)
                 ignite(list[1], y, x, grid, currentId)
                 currentId += 1
-                print("how many connected", size, "id", currentId)
+                print(size, "Blocks are connected", "with id", currentId)
 
 countpoints("Croppedandperspectivecorrectedboards/1.jpg")
+
