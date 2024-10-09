@@ -116,21 +116,9 @@ def tileGrid(image):
                 table += 1
         #stuff
         cube_labels.append(row_list)
-    cv2.imshow('Detected', img)
+    cv2.imshow('tilelabel', img)
     waitKey(0)
     return cube_labels
-
-    '''# Example output: cube_labels contains the positions and corresponding predicted labels
-    # Output the counts for each label
-    print(f"Total Grass: {grass_count}")
-    print(f"Total Forest: {forest_count}")
-    print(f"Total Wheat: {wheat_count}")
-    print(f"Total Mines: {mines_count}")
-    print(f"Total Rock: {rock_count}")
-    print(f"Total Water: {water_count}")
-    print(f"Total Sand: {sand_count}")
-    print(f"Total Castle: {castle}")
-    print(f"Total Table: {table}")'''
 
 
 
