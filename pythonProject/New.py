@@ -47,8 +47,8 @@ def label_color(hsv_value, has_structure=False):
     else:
         return "Table"
 
+# creates the tilegrid [[[ grid ]]]
 def tileGrid(image):
-    # 0
     grass_count = 0
     forest_count = 0
     wheat_count = 0
