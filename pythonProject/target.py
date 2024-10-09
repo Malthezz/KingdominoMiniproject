@@ -38,12 +38,6 @@ def crown(image):
         template = cv2.rotate(template, cv2.ROTATE_90_CLOCKWISE)
         templates.append(template)
 
-    # best current results (30,30) and (3,3) and thresh = 7!!
-    # template = cv2.resize(template, (30,30))
-    # template = cv2.GaussianBlur(template, (3, 3), 10,10,10, cv2.BORDER_DEFAULT)
-
-    # cv2.imshow('crown_blur', template)
-
     # Store width and height of template in w and h
     w, h = template.shape[::-1]
 
@@ -77,5 +71,5 @@ def crown(image):
     , rectangle_coords_np)
 
     # Show the final image with the matched area.
-    cv2.imshow('crown', image)
+    cv2.imshow('crown', img_rgb)
     cv2.waitKey(0)
