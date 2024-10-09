@@ -2,7 +2,7 @@ from collections import deque
 
 import cv2
 import numpy as np
-from cv2 import waitKey
+from cv2 import waitKey, rectangle
 from sipbuild.generator.parser.annotations import string
 
 from pythonProject.New import tileGrid, img_hsv
@@ -37,6 +37,7 @@ def ignite(tileType, y, x, grid, id):
 
     return size
 
+
 # tells and counts the size of the blobs and puts an id.
 def countpoints(path):
     img = cv2.imread(path)
@@ -52,5 +53,21 @@ def countpoints(path):
                 currentId += 1
                 print(size, "Blocks are connected", "with id", currentId)
 
-countpoints("Croppedandperspectivecorrectedboards/1.jpg")
+def draw_rectangle(tileGrid, image):
+    img = cv2.imread(image)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    x_start = tileGrid['x_start']
+    y_start = tileGrid['y_start']
+    x_end = tileGrid['x_end']
+    y_end = tileGrid['y_end']
+    label_text = tileGrid['label_text']
+
+    # Draw a rectangle and label the color
+    cv2.rectangle(img, (x_start, y_start), (x_end, y_end), (0, 255, 0), 2)  # Draw rectangle
+    cv2.putText(img, label_text, (x_start + 5, y_start + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+    cv2.imshow('Detected', img)
+    waitKey(0)
+
+draw_rectangle("Croppedandperspectivecorrectedboards/4.jpg")
+countpoints("Croppedandperspectivecorrectedboards/4.jpg")
 
