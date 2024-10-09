@@ -1,6 +1,9 @@
 import cv2
 import numpy as np
 from numpy.ma.core import append
+import torch
+
+
 
 img_rgb = cv2.imread('Croppedandperspectivecorrectedboards/1.jpg')
 
@@ -61,17 +64,20 @@ for pt in zip(*loc[::-1]):
 
     # Define the rectangle points
     top_left = pt
-    top_right = pt
-    bottom_left = (pt[0], pt[1] + h)
-    bottom_right = (pt[0] + w, pt[1] + h)
+    top_right = (pt[0] + w, pt[1])  # x increases by width, y remains the same
+    bottom_left = (pt[0], pt[1] + h)  # x remains the same, y increases by height
+    bottom_right = (pt[0] + w, pt[1] + h)  # x increases by width, y increases by height
 
-    rectangle_coords.append([top_left[0], top_right[1], bottom_left[0], bottom_right[1]])
+    # Add rectangle coordinates to the list
+    rectangle_coords.append([top_left, top_right, bottom_left, bottom_right])
 
 rectangle_coords_np = np.array(rectangle_coords)
 
-print("Rectangle Coordinates:", rectangle_coords_np)
+print("Rectangle Coordinates:"
+, rectangle_coords_np)
 
+end = filtered_boxes
 
 # Show the final image with the matched area.
-cv2.imshow('Detected', img_rgb)
+cv2.imshow('Detected', end)
 cv2.waitKey(0)
