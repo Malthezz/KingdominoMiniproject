@@ -23,11 +23,11 @@ def label_color(hsv_value, has_structure=False):
         return "Grass"
 
     # Refined range for Rock
-    elif (h >= 20 and h <= 30) and (s >= 80 and s <= 167) and (v >= 72 and v <= 118):
+    elif (h >= 20 and h <= 29.5) and (s >= 84 and s <= 167) and (v >= 73.5 and v <= 118):
         return "Rock"
 
     # Adjusted ranges for Mines
-    elif (h >= 25 and h <= 50) and (s >= 72 and s <= 140) and (v >= 50 and v <= 80):
+    elif (h >= 28 and h <= 50) and (s >= 72 and s <= 136) and (v >= 50 and v <= 80):
         return "Mines"
 
     # Adjusted ranges for Forrest
@@ -35,7 +35,7 @@ def label_color(hsv_value, has_structure=False):
         return "Forest"
 
     # Adjusted ranges for Castle
-    elif (h >= 23 and h <= 52) and (s >= 70 and s <= 135) and (v >= 71 and v <= 148):
+    elif (h >= 23 and h <= 58) and (s >= 67 and s <= 135) and (v >= 71 and v <= 148):
         return "Castle"
 
     # Return Unknown for values that don't fit any category
@@ -54,8 +54,8 @@ castle = 0
 table = 0
 
 # Load and process the image
-image_path = 'Croppedandperspectivecorrectedboards/5.jpg'
-# Have checked 1,2,3,5,6,22,26,38
+image_path = 'Croppedandperspectivecorrectedboards/12.jpg'
+# Have checked 1,2,3,5,6,12,22,26,38
 img = cv2.imread(image_path)
 img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
 
