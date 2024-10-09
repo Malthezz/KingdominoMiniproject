@@ -5,7 +5,9 @@ import numpy as np
 from cv2 import waitKey
 from sipbuild.generator.parser.annotations import string
 
-from pythonProject.New import tileGrid, img_hsv
+from pythonProject.New import tileGrid
+from pythonProject.target import crown
+
 
 # goes through each tile and sees if any connecting tile matches
 def checkConnections(tileType, que, y, x, grid):
@@ -53,4 +55,5 @@ def countpoints(path):
                 print(size, "Blocks are connected", "with id", currentId)
 
 countpoints("Croppedandperspectivecorrectedboards/1.jpg")
+crown("Croppedandperspectivecorrectedboards/1.jpg")
 
