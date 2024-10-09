@@ -9,33 +9,33 @@ def label_color(hsv_value, has_structure=False):
 
     # Adjusted ranges for Water
 
-    if (h >= 70 and h <= 110) and (s >= 190 and s <= 255) and (v >= 115 and v <= 192):
+    if (h >= 70 and h <= 110) and (s >= 190 and s <= 255) and (v >= 112 and v <= 192):
         if has_structure:
             return "Under Structure"  # or "Obstructed Water"
         return "Water"
 
     # Adjusted ranges for Sand
-    elif (h >= 20 and h <= 30) and (s >= 217 and s <= 255) and (v >= 141 and v <= 255):
+    elif (h >= 20 and h <= 30) and (s >= 216 and s <= 255) and (v >= 141 and v <= 255):
         return "Sand"
 
     # Adjusted ranges for Grass
-    elif (h >= 32 and h <= 48) and (s >= 184 and s <= 225) and (v >= 95 and v <= 160):
+    elif (h >= 31 and h <= 49) and (s >= 161 and s <= 227) and (v >= 85 and v <= 160):
         return "Grass"
 
     # Refined range for Rock
-    elif (h >= 20 and h <= 29.5) and (s >= 84 and s <= 167) and (v >= 73.5 and v <= 118):
+    elif (h >= 18.5 and h <= 29.5) and (s >= 84 and s <= 167) and (v >= 73.5 and v <= 123):
         return "Rock"
 
     # Adjusted ranges for Mines
-    elif (h >= 28 and h <= 50) and (s >= 72 and s <= 136) and (v >= 50 and v <= 80):
+    elif (h >= 28 and h <= 51) and (s >= 69 and s <= 136) and (v >= 43 and v <= 80):
         return "Mines"
 
     # Adjusted ranges for Forrest
-    elif (h >= 34 and h <= 52) and (s >= 100 and s <= 200) and (v >= 40 and v <= 76):
+    elif (h >= 29 and h <= 52) and (s >= 100 and s <= 200) and (v >= 40 and v <= 76):
         return "Forest"
 
     # Adjusted ranges for Castle
-    elif (h >= 23 and h <= 58) and (s >= 67 and s <= 135) and (v >= 71 and v <= 148):
+    elif (h >= 23 and h <= 58) and (s >= 67 and s <= 140) and (v >= 71 and v <= 148):
         return "Castle"
 
     # Return Unknown for values that don't fit any category
@@ -54,8 +54,8 @@ castle = 0
 table = 0
 
 # Load and process the image
-image_path = 'Croppedandperspectivecorrectedboards/12.jpg'
-# Have checked 1,2,3,5,6,12,22,26,38
+image_path = 'Croppedandperspectivecorrectedboards/13.jpg'
+# Have trained with image 1,2,3,5,6,12,13,22,26,38,47,58
 img = cv2.imread(image_path)
 img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
 
