@@ -2,7 +2,8 @@ import cv2
 import numpy as np
 from numpy.ma.core import append
 import torch
-from NMS import *
+
+
 
 img_rgb = cv2.imread('Croppedandperspectivecorrectedboards/1.jpg')
 
@@ -75,7 +76,8 @@ rectangle_coords_np = np.array(rectangle_coords)
 print("Rectangle Coordinates:"
 , rectangle_coords_np)
 
+end = filtered_boxes
 
 # Show the final image with the matched area.
-cv2.imshow('Detected', img_rgb)
+cv2.imshow('Detected', end)
 cv2.waitKey(0)
