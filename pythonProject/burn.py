@@ -1,8 +1,6 @@
 from collections import deque
 
 import cv2
-
-
 from pythonProject.New import tileGrid, img_hsv
 
 # goes through each tile and sees if any connecting tile matches

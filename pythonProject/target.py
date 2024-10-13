@@ -4,7 +4,6 @@ from numpy.ma.core import append
 import torch
 
 
-
 img_rgb = cv2.imread('Croppedandperspectivecorrectedboards/1.jpg')
 
 # Convert it to grayscale
@@ -38,25 +37,19 @@ for template_file in template_files:
     template = cv2.rotate(template, cv2.ROTATE_90_CLOCKWISE)
     templates.append(template)
 
-# best current results (30,30) and (3,3) and thresh = 7!!
-# template = cv2.resize(template, (30,30))
-# template = cv2.GaussianBlur(template, (3, 3), 10,10,10, cv2.BORDER_DEFAULT)
-
-# cv2.imshow('crown_blur', template)
-
-# Store width and height of template in w and h
-w, h = template.shape[::-1]
-
-# Perform match operations.
-res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
-
 # Specify a threshold
 threshold = 0.6
-
-# Store the coordinates of matched area in a numpy array
-loc = np.where(res >= threshold)
-
 rectangle_coords = []
+
+# Store width and height of template in w and h
+for template in templates:
+    w, h = template.shape[::-1]
+
+    #perform template matching
+    res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+
+    # Store the coordinates of matched area in a numpy array
+    loc = np.where(res >= threshold)
 
 # Draw a rectangle around the matched region.
 for pt in zip(*loc[::-1]):
@@ -72,9 +65,9 @@ for pt in zip(*loc[::-1]):
     rectangle_coords.append([top_left, top_right, bottom_left, bottom_right])
 
 rectangle_coords_np = np.array(rectangle_coords)
+print("Rectangle Coordinates:", rectangle_coords_np)
 
-print("Rectangle Coordinates:"
-, rectangle_coords_np)
+#define the grid dimensions
 
 end = filtered_boxes
 
