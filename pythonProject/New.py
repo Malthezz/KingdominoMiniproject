@@ -1,12 +1,12 @@
-
-
 import cv2
+import numpy as np
 from cv2 import waitKey
 
-def process_image(image):
-    img = cv2.imread(image)
-    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
-    return img
+# Load and process the image
+image_path = 'Croppedandperspectivecorrectedboards/5.jpg'
+# Have checked 1,2,3,5,6,22,26,38
+img = cv2.imread(image_path)
+img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
 
 # Function to assign labels based on HSV value
 def label_color(hsv_value, has_structure=False):
@@ -49,7 +49,6 @@ def label_color(hsv_value, has_structure=False):
 
 # creates the tilegrid [[[ grid ]]]
 def tileGrid(image):
-    img = cv2.imread(image)
     grass_count = 0
     forest_count = 0
     wheat_count = 0
@@ -65,6 +64,7 @@ def tileGrid(image):
     height, width, _ = image.shape
     cube_height = height // rows
     cube_width = width // cols
+
 
     # Loop through the grid and assign labels to each cube
     cube_labels = []
@@ -119,8 +119,6 @@ def tileGrid(image):
     cv2.imshow('Detected', img)
     waitKey(0)
     return cube_labels
-
-
 
 
 
