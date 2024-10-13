@@ -3,7 +3,7 @@ import numpy as np
 from numpy.ma.core import append
 import torch
 
-
+from pythonProject.NMSv1 import filtered_boxes
 
 img_rgb = cv2.imread('Croppedandperspectivecorrectedboards/1.jpg')
 
