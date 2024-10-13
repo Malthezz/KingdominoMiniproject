@@ -3,9 +3,10 @@ from collections import deque
 import cv2
 import numpy as np
 from cv2 import waitKey
-from sipbuild.generator.parser.annotations import string
+
 
 from pythonProject.New import tileGrid
+from pythonProject.New import tileGrid, img_hsv
 from pythonProject.target import crown
 
 
@@ -56,4 +57,5 @@ def countpoints(path):
 
 countpoints("Croppedandperspectivecorrectedboards/1.jpg")
 crown("Croppedandperspectivecorrectedboards/1.jpg")
+
 
