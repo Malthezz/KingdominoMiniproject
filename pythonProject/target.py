@@ -1,17 +1,20 @@
 import cv2
 import numpy as np
 
-
+#This part loads the templates put in Crown():
 def load_templates(template_files):
     templates = []
     for template_file in template_files:
         template = cv2.imread(template_file, cv2.IMREAD_GRAYSCALE)
         templates.append(template)
+
+    # Returns them
     return templates
 
-
+#This functions matches the templates from above into the image in Crown():
 def match_templates(img_gray, templates, threshold=0.6):
 
+    #This is an empty []
     rectangle_coords = []
 
     for template in templates:
@@ -26,13 +29,13 @@ def match_templates(img_gray, templates, threshold=0.6):
             bottom_left = (pt[0], pt[1] + h)
             bottom_right = (pt[0] + w, pt[1] + h)
 
+            #Stores the crowns yellow rectangles
             rectangle_coords.append([top_left, top_right, bottom_left, bottom_right])
 
-            # Optionally, draw rectangles on the image (this is useful for visualization)
-            #cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 255, 255), 2)
-
+    #Returns them
     return rectangle_coords
 
+#Divides the image into rows and cols aka a grid.
 def divide_into_grid(image, rows=5, cols=5):
     height, width, _ = image.shape
     cube_height = height // rows
@@ -44,10 +47,13 @@ def divide_into_grid(image, rows=5, cols=5):
             x_start, x_end = col * cube_width, (col + 1) * cube_width
             y_start, y_end = row * cube_height, (row + 1) * cube_height
 
+            #puts the grids into the empty grid_coords' []
             grid_coords.append([(row, col), (x_start, y_start, x_end, y_end)])
 
+    # Returns them
     return grid_coords
 
+#Displays the rectangles aka the grid for each tile.
 def display_image_rectangle(image, rectangle_coords):
     for rect in rectangle_coords:
         top_left, top_right, bottom_left, bottom_right = rect
@@ -57,6 +63,7 @@ def display_image_rectangle(image, rectangle_coords):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+#This right here finds where the crowns are located into the grid.
 def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
     crown_count = [[0 for _ in range(cols)] for _ in range(rows)]
     for rect in rectangle_coords:
@@ -71,7 +78,7 @@ def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
         #print(sorted_crowns)
     return crown_count
 
-
+#And this displays the grid with the crowns.
 def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords):
     # Draw rectangles around matched crowns
     for rect in rectangle_coords:
@@ -87,6 +94,7 @@ def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+#All the good stuff is put in here, so everything works elsewhere :) (hopefully)
 def crown(image):
     img_rgb = cv2.imread(image)
     # Convert it to grayscale
