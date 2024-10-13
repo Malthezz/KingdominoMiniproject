@@ -5,7 +5,8 @@ import torch
 
 def crown(image):
 
-    img_rgb = image, cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    img_rgb = cv2.imread(image)
+
     # Convert it to grayscale
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
 
@@ -70,8 +71,6 @@ def crown(image):
 
     #define the grid dimensions
 
-    end = filtered_boxes
-
     # Show the final image with the matched area.
-    cv2.imshow('Detected', end)
+    cv2.imshow('Detected', img_rgb)
     cv2.waitKey(0)
