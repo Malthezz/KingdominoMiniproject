@@ -51,4 +51,6 @@ def countpoints(path):
                 print(size, "Blocks are connected", "with id", currentId)
 
 countpoints("Croppedandperspectivecorrectedboards/1.jpg")
-crown("Croppedandperspectivecorrectedboards/3.jpg")
+
+crown("Croppedandperspectivecorrectedboards/1.jpg")
+

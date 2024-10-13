@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+
 #This part loads the templates put in Crown():
 def load_templates(template_files):
     templates = []
@@ -96,7 +97,9 @@ def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords)
 
 #All the good stuff is put in here, so everything works elsewhere :) (hopefully)
 def crown(image):
+
     img_rgb = cv2.imread(image)
+
     # Convert it to grayscale
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
 
@@ -129,23 +132,38 @@ def crown(image):
         template = cv2.rotate(template, cv2.ROTATE_90_CLOCKWISE)
         templates.append(template)
 
-    # Perform template matching
-    rectangle_coords = match_templates(img_gray, templates, 0.8)
+    # Specify a threshold
+    threshold = 0.6
+    rectangle_coords = []
 
-    # Print matched rectangle coordinates
-    print("Matched Rectangle Coordinates:", np.array(rectangle_coords))
+    # Store width and height of template in w and h
+    for template in templates:
+        w, h = template.shape[::-1]
 
-    rows, cols = 5,5
-    # Divide the image into a grid
-    grid_coords = divide_into_grid(img_rgb, 5, 5)
+        #perform template matching
+        res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
 
-    # Map the crowns to their corresponding grid cells
-    crown_count = crowns_to_grid(rectangle_coords, grid_coords, rows, cols)
+        # Store the coordinates of matched area in a numpy array
+        loc = np.where(res >= threshold)
 
-    # Display the crown count grid
-    print("Crown count in each grid cell:")
-    for row in crown_count:
-        print(row)
+    # Draw a rectangle around the matched region.
+    for pt in zip(*loc[::-1]):
+        cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 255, 255), 2)
 
-    # Display the image with matched template rectangles and grid
-    display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords)
+        # Define the rectangle points
+        top_left = pt
+        top_right = (pt[0] + w, pt[1])  # x increases by width, y remains the same
+        bottom_left = (pt[0], pt[1] + h)  # x remains the same, y increases by height
+        bottom_right = (pt[0] + w, pt[1] + h)  # x increases by width, y increases by height
+
+        # Add rectangle coordinates to the list
+        rectangle_coords.append([top_left, top_right, bottom_left, bottom_right])
+
+    rectangle_coords_np = np.array(rectangle_coords)
+    print("Rectangle Coordinates:", rectangle_coords_np)
+
+    #define the grid dimensions
+
+    # Show the final image with the matched area.
+    cv2.imshow('Detected', img_rgb)
+    cv2.waitKey(0)
