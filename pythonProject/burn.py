@@ -3,6 +3,7 @@ from collections import deque
 import cv2
 import numpy as np
 from cv2 import waitKey
+from sipbuild.generator.parser.annotations import string
 
 from pythonProject.New import tileGrid, img_hsv
 
