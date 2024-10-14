@@ -54,19 +54,21 @@ def label_color(hsv_value, has_structure=False):
 
 # creates the tilegrid [[[ grid ]]]
 def tileGrid(image, image_hsv):
-    grass_count = 0
-    forest_count = 0
-    wheat_count = 0
-    mines_count = 0
-    rock_count = 0
-    water_count = 0
-    sand_count = 0
-    castle = 0
-    table = 0
+    label_counts = {
+        "Grass": 0,
+        "Forest": 0,
+        "Wheat": 0,
+        "Mines": 0,
+        "Rock": 0,
+        "Water": 0,
+        "Sand": 0,
+        "Castle": 0,
+        "Table": 0
+    }
 
     # Define grid dimensions
     rows, cols = 5, 5
-    height, width, _ = image_hsv.shape
+    height, width, _ = image.shape
     cube_height = height // rows
     cube_width = width // cols
 
@@ -101,29 +103,53 @@ def tileGrid(image, image_hsv):
             cv2.putText(image, label, (x_start + 5, y_start + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
             # Move the label counting code inside the loop
-            if label == "Grass":
-                grass_count += 1
-            elif label == "Forest":
-                forest_count += 1
-            elif label == "Wheat":
-                wheat_count += 1
-            elif label == "Mines":
-                mines_count += 1
-            elif label == "Rock":
-                rock_count += 1
-            elif label == "Water":
-                water_count += 1
-            elif label == "Sand":
-                sand_count += 1
-            elif label == "Castle":
-                castle += 1
-            elif label == "Table":
-                table += 1
+            if label in label_counts:
+                label_counts[label] += 1
         #stuff
         cube_labels.append(row_list)
     cv2.imshow('Detected', image)
     waitKey(0)
     return cube_labels
+
+# Function to assign labels based on HSV value
+def label_color(hsv_value, has_structure=False):
+    h, s, v = hsv_value
+
+    # Adjusted ranges for Water
+
+    if (h >= 70 and h <= 110) and (s >= 190 and s <= 255) and (v >= 112 and v <= 192):
+        if has_structure:
+            return "Under Structure"  # or "Obstructed Water"
+        return "Water"
+
+    # Adjusted ranges for Sand
+    elif (h >= 20 and h <= 30) and (s >= 216 and s <= 255) and (v >= 141 and v <= 255):
+        return "Sand"
+
+    # Adjusted ranges for Grass
+    elif (h >= 31 and h <= 49) and (s >= 161 and s <= 227) and (v >= 85 and v <= 160):
+        return "Grass"
+
+    # Refined range for Rock
+    elif (h >= 18.5 and h <= 29.5) and (s >= 84 and s <= 167) and (v >= 73.5 and v <= 123):
+        return "Rock"
+
+    # Adjusted ranges for Mines
+    elif (h >= 28 and h <= 51) and (s >= 69 and s <= 136) and (v >= 43 and v <= 80):
+        return "Mines"
+
+    # Adjusted ranges for Forrest
+    elif (h >= 29 and h <= 52) and (s >= 100 and s <= 200) and (v >= 40 and v <= 76):
+        return "Forest"
+
+    # Adjusted ranges for Castle
+    elif (h >= 23 and h <= 58) and (s >= 67 and s <= 140) and (v >= 71 and v <= 148):
+        return "Castle"
+
+    # Return Unknown for values that don't fit any category
+    else:
+        return "Table"
+
 
 
 
