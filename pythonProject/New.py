@@ -118,8 +118,6 @@ def label_color(hsv_value, has_structure=False):
     # Adjusted ranges for Water
 
     if (h >= 70 and h <= 110) and (s >= 190 and s <= 255) and (v >= 112 and v <= 192):
-        if has_structure:
-            return "Under Structure"  # or "Obstructed Water"
         return "Water"
 
     # Adjusted ranges for Sand

@@ -14,7 +14,7 @@ from pythonProject.burn import countpoints
 from pythonProject.target import crown
 
 # Set the image path to the specific image you want to calculate :))
-image_path = 'Croppedandperspectivecorrectedboards/4.jpg'
+image_path = 'Croppedandperspectivecorrectedboards/6.jpg'
 
 # Load and process the image
 img, img_hsv = load_and_process_image(image_path)
