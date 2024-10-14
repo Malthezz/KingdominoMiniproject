@@ -15,7 +15,7 @@ from pythonProject.target import crown, divide_into_grid, match_templates, load_
 from pythonProject.target import point_calculator  # Import the new function
 
 # Set the image path to the specific image you want to calculate
-image_path = 'Croppedandperspectivecorrectedboards/6.jpg'
+image_path = 'Croppedandperspectivecorrectedboards/1.jpg'
 
 # Original functionality preserved
 # Load and process the image
