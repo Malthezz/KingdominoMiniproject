@@ -78,8 +78,8 @@ def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
                 crown_ids[current_crown_id] = (row, col)  # Assign ID to crown's grid position
                 current_crown_id += 1
                 break
-                sorted_crowns = sorted(crown_ids, key=lambda grid: (row, col, rect))
-                print(sorted_crowns)
+                #sorted_crowns = sorted(crown_ids, key=lambda grid: (row, col, rect))
+                #print(sorted_crowns)
 
     return crown_count, crown_ids
 
@@ -154,13 +154,15 @@ def crown(image):
         [(rect[0], rect[1]), (rect[2], rect[1]), (rect[0], rect[3]), (rect[2], rect[3])]
         for rect in rectangle_coords
     ]
+    return rectangle_coords
 
     # Print matched rectangle coordinates
     # print("Matched Rectangle Coordinates:", np.array(rectangle_coords))
 
+def process_labels(img, rectangle_coords, currentId):
     rows, cols = 5,5
     # Divide the image into a grid
-    grid_coords = divide_into_grid(img_rgb, 5, 5)
+    grid_coords = divide_into_grid(img, 5, 5)
 
     # Map the crowns to their corresponding grid cells
     crown_count, crown_ids = crowns_to_grid(rectangle_coords, grid_coords, rows, cols)
@@ -174,4 +176,4 @@ def crown(image):
         print(f"Crown ID {crown_id} at grid position {position}")
 
     # Display the image with matched template rectangles and grid
-    display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords)
+    display_image_with_rectangles_and_grid(img.copy(), rectangle_coords, grid_coords)
