@@ -25,6 +25,7 @@ def ignite(tileType, y, x, grid, label_id):
     queue = deque([])
     queue.append((y, x))
     size = 0
+    connected_tiles = []
 
     while queue:
         curry, currx = queue.popleft()
@@ -32,10 +33,11 @@ def ignite(tileType, y, x, grid, label_id):
         if grid[curry][currx][2] == None:
             grid[curry][currx][2] = label_id
             size += 1
+            connected_tiles.append((curry, currx))
 
             checkConnections(tileType, queue, curry, currx, grid)
 
-    return size
+    return size, connected_tiles
 
 # tells and counts the size of the blobs and puts an id.
 def countpoints(path):
@@ -48,6 +50,7 @@ def countpoints(path):
         for x, cell in enumerate(rows):
             if cell[2] is None:
                 label = cell[1]
-                size = ignite(label, y, x, grid, currentId)
-                print(size, "Blocks are connected", "with id", currentId, label)
+                size, connected_tiles = ignite(label, y, x, grid, currentId)
+                coordinates = (y, x)
+                print(size, "Blocks are connected", "with id", currentId, label, connected_tiles)
                 currentId += 1
