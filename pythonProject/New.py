@@ -2,11 +2,16 @@ import cv2
 import numpy as np
 from cv2 import waitKey
 
-# Load and process the image
-image_path = 'Croppedandperspectivecorrectedboards/5.jpg'
-# Have checked 1,2,3,5,6,22,26,38
-img = cv2.imread(image_path)
-img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Convert to HSV
+
+# Function to load and process the image
+def load_and_process_image(image_path):
+    # Load the image
+    img = cv2.imread(image_path)
+
+    # Convert the image to HSV color space
+    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+    return img, img_hsv
 
 # Function to assign labels based on HSV value
 def label_color(hsv_value, has_structure=False):
@@ -92,8 +97,8 @@ def tileGrid(image):
             # print(f"Cube at position ({row}, {col}) labeled as {label}")
             # print(cube_labels)
             # Draw a rectangle and label the color
-            cv2.rectangle(img, (x_start, y_start), (x_end, y_end), (0, 255, 0), 2)  # Draw rectangle
-            cv2.putText(img, label, (x_start + 5, y_start + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+            cv2.rectangle(image, (x_start, y_start), (x_end, y_end), (0, 255, 0), 2)  # Draw rectangle
+            cv2.putText(image, label, (x_start + 5, y_start + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
             # Move the label counting code inside the loop
             if label == "Grass":
@@ -116,7 +121,7 @@ def tileGrid(image):
                 table += 1
         #stuff
         cube_labels.append(row_list)
-    cv2.imshow('Detected', img)
+    cv2.imshow('Detected', image)
     waitKey(0)
     return cube_labels
 

@@ -76,7 +76,7 @@ def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
         #print(sorted_crowns)
     return crown_count
 
-#All the good stuff is put in here, so everything works elsewhere :) (hopefully)
+#Displays the rectangles and the grid.
 def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords):
     # Draw rectangles around matched crowns
     for rect in rectangle_coords:
@@ -92,6 +92,7 @@ def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+#All the good stuff is put in here, so everything works elsewhere :) (hopefully)
 def crown(image):
     img_rgb = cv2.imread(image)
     # Convert it to grayscale
@@ -129,14 +130,14 @@ def crown(image):
     # Perform template matching
     rectangle_coords = match_templates(img_gray, templates, 0.8)
 
-    #NMS
+    #NMS NON MAXIMUM SUPRESSON
     # Apply non-max suppression to reduce overlapping detections
     rectangle_coords = np.array([[
         rect[0][0], rect[0][1], rect[3][0], rect[3][1]
     ] for rect in rectangle_coords])  # Convert to (x1, y1, x2, y2) format
 
     if len(rectangle_coords) > 0:
-        rectangle_coords = non_max_suppression_fast(rectangle_coords, 0.3)
+        rectangle_coords = non_max_suppression_fast(rectangle_coords, 0.4)
 
     # Convert back to original (top-left, top-right, bottom-left, bottom-right) format
     rectangle_coords = [
@@ -145,7 +146,7 @@ def crown(image):
     ]
 
     # Print matched rectangle coordinates
-    print("Matched Rectangle Coordinates:", np.array(rectangle_coords))
+    # print("Matched Rectangle Coordinates:", np.array(rectangle_coords))
 
     rows, cols = 5,5
     # Divide the image into a grid
