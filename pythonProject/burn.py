@@ -2,7 +2,7 @@ from collections import deque
 
 import cv2
 from pythonProject.New import tileGrid
-from pythonProject.target import crown
+from pythonProject.target import crown, divide_into_grid, crowns_to_grid
 
 
 # goes through each tile and sees if any connecting tile matches
@@ -51,5 +51,3 @@ def countpoints(path):
                 size = ignite(label, y, x, grid, currentId)
                 print(size, "Blocks are connected", "with id", currentId, label)
                 currentId += 1
-
-
