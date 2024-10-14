@@ -69,8 +69,10 @@ def tileGrid(image, image_hsv):
                 label_counts[label] += 1
         #stuff
         cube_labels.append(row_list)
+
     cv2.imshow('Detected', image)
     waitKey(0)
+
     return cube_labels
 
 # Function to assign labels based on HSV value

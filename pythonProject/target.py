@@ -59,9 +59,6 @@ def display_image_rectangle(image, rectangle_coords):
         top_left, top_right, bottom_left, bottom_right = rect
         cv2.rectangle(image, top_left, bottom_right, (0, 255, 255), 2)
 
-    cv2.imshow('Detected', image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
 
 #This right here finds where the crowns are located into the grid.
 def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
@@ -100,7 +97,6 @@ def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords)
 
     cv2.imshow('Detected Crowns with Grid', image)
     cv2.waitKey(0)
-    cv2.destroyAllWindows()
 
 #All the good stuff is put in here, so everything works elsewhere :) (hopefully)
 def crown(image):
@@ -215,4 +211,8 @@ def point_calculator(image_path, grid, templates):
         if crown_count > 0:
             total_multiplier += size * crown_count
 
-    return total_multiplier
+            return total_multiplier
+
+
+
+
