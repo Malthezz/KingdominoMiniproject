@@ -73,16 +73,15 @@ def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
         top_left = rect[0]
         for grid in grid_coords:
             (row,col), (x_start, y_start, x_end, y_end) = grid
-            print(grid)
             if x_start <= top_left[0] <= x_end and y_start <= top_left[1] <= y_end:
                 crown_count[row][col] += 1
                 crown_ids[current_crown_id] = (row, col)  # Assign ID to crown's grid position
                 current_crown_id += 1
                 break
-        #sorted_crowns = sorted(crown_count, key=lambda grid: (row,col,rect))
-        #print(sorted_crowns)
+                sorted_crowns = sorted(crown_ids, key=lambda grid: (row, col, rect))
+                print(sorted_crowns)
 
-    return crown_count
+    return crown_count, crown_ids
 
 #Displays the rectangles and the grid.
 def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords):
@@ -105,7 +104,6 @@ def crown(image):
     img_rgb = cv2.imread(image)
     # Convert it to grayscale
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
-
 
     # List of template file names
     template_files = [
@@ -132,8 +130,6 @@ def crown(image):
         "9Krone1Sand.jpg",
         "9Krone1Sand90.jpg", "9Krone1Sand180.jpg", "9Krone1Sand270.jpg"
     ]
-
-    # List to store the grayscale templates
     templates = []
 
     for template_file in template_files:
@@ -160,7 +156,7 @@ def crown(image):
     ]
 
     # Print matched rectangle coordinates
-    print("Matched Rectangle Coordinates:", np.array(rectangle_coords))
+    # print("Matched Rectangle Coordinates:", np.array(rectangle_coords))
 
     rows, cols = 5,5
     # Divide the image into a grid
