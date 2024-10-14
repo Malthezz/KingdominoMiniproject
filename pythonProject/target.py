@@ -1,6 +1,9 @@
 import cv2
 import numpy as np
 
+from pythonProject.NMS import non_max_suppression_fast
+
+
 #This part loads the templates put in Crown():
 def load_templates(template_files):
     templates = []
@@ -125,6 +128,21 @@ def crown(image):
 
     # Perform template matching
     rectangle_coords = match_templates(img_gray, templates, 0.8)
+
+    #NMS
+    # Apply non-max suppression to reduce overlapping detections
+    rectangle_coords = np.array([[
+        rect[0][0], rect[0][1], rect[3][0], rect[3][1]
+    ] for rect in rectangle_coords])  # Convert to (x1, y1, x2, y2) format
+
+    if len(rectangle_coords) > 0:
+        rectangle_coords = non_max_suppression_fast(rectangle_coords, 0.3)
+
+    # Convert back to original (top-left, top-right, bottom-left, bottom-right) format
+    rectangle_coords = [
+        [(rect[0], rect[1]), (rect[2], rect[1]), (rect[0], rect[3]), (rect[2], rect[3])]
+        for rect in rectangle_coords
+    ]
 
     # Print matched rectangle coordinates
     print("Matched Rectangle Coordinates:", np.array(rectangle_coords))
