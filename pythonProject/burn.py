@@ -2,7 +2,6 @@ from collections import deque
 
 import cv2
 from pythonProject.New import tileGrid
-from pythonProject.target import crown, divide_into_grid, crowns_to_grid
 
 
 # goes through each tile and sees if any connecting tile matches

@@ -81,8 +81,8 @@ def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
                 current_crown_id += 1
                 break
                 
-                sorted_crowns = sorted(crown_ids, key=lambda grid: (row, col, rect))
-                print(sorted_crowns)
+                #sorted_crowns = sorted(crown_ids, key=lambda grid: (row, col, rect))
+                #print(sorted_crowns)
 
     return crown_count, crown_ids
 
