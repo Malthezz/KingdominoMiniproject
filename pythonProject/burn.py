@@ -2,8 +2,7 @@ from collections import deque
 
 import cv2
 from pythonProject.New import tileGrid
-from pythonProject.target import crown, process_labels
-
+from pythonProject.target import crown, global_label_Crowncount, global_label_crownId
 
 
 # goes through each tile and sees if any connecting tile matches
@@ -53,6 +52,13 @@ def countpoints(path):
                 print(size, "Blocks are connected", "with id", currentId, label)
                 currentId += 1
 
-    process_labels(img, currentId)
+                # Print crown count and IDs
+                print("Crown count in each grid cell:")
+                for row in global_label_Crowncount:
+                    print(row)
+                print("Crown IDs with their respective grid positions:")
+                for crown_id, position in global_label_crownId.items():
+                    print(f"Crown ID {crown_id} at grid position {position} and label {label}")
+
 
 

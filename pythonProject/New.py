@@ -2,9 +2,6 @@ import cv2
 import numpy as np
 from cv2 import waitKey
 
-# Global variable to store the label
-global_label = []
-
 # Thresholds have been checked with pictures: 1,2,3,5,6,22,26,38
 
 # Function to load and process the image
@@ -60,9 +57,6 @@ def tileGrid(image, image_hsv):
             # cube_labels.append(((row, col), label, None))
             data = [(row,col),label,None]
             row_list.append(data)
-
-            # Store the label in the global variable
-            global_label.append(label)
 
             # print(f"Cube at position ({row}, {col}) labeled as {label}")
             # print(cube_labels)

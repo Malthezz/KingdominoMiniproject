@@ -2,7 +2,11 @@ import cv2
 import numpy as np
 
 from pythonProject.NMS import non_max_suppression_fast
-from pythonProject.New import global_label
+
+# Global variable to store the label
+global_label_crownId = []
+global_label_gp = []
+global_label_Crowncount = []
 
 
 #This part loads the templates put in Crown():
@@ -78,6 +82,10 @@ def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
                 crown_count[row][col] += 1
                 crown_ids[current_crown_id] = (row, col)  # Assign ID to crown's grid position
                 current_crown_id += 1
+
+                # Store the label in the global variable
+                global_label_crownId.append(crown_ids[current_crown_id])
+
                 break
                 #sorted_crowns = sorted(crown_ids, key=lambda grid: (row, col, rect))
                 #print(sorted_crowns)
@@ -155,27 +163,18 @@ def crown(image):
         [(rect[0], rect[1]), (rect[2], rect[1]), (rect[0], rect[3]), (rect[2], rect[3])]
         for rect in rectangle_coords
     ]
-    return rectangle_coords
 
     # Print matched rectangle coordinates
     # print("Matched Rectangle Coordinates:", np.array(rectangle_coords))
 
-def process_labels(img, rectangle_coords, currentId):
     rows, cols = 5,5
     # Divide the image into a grid
-    grid_coords = divide_into_grid(img, 5, 5)
+    grid_coords = divide_into_grid(img_rgb, 5, 5)
 
     # Map the crowns to their corresponding grid cells
     crown_count, crown_ids = crowns_to_grid(rectangle_coords, grid_coords, rows, cols)
 
-    # Print crown count and IDs
-    print("Crown count in each grid cell:")
-    for row in crown_count:
-        print(row)
-    print("Crown IDs with their respective grid positions:")
-    for crown_id, position in crown_ids.items():
-        size = ignite(label, y, x, grid, currentId)
-        print(f size "Crown ID {crown_id} at grid position {position} and label {global_label}")
-
+    # Store the label in the global variable
+    global_label_Crowncount.append(crown_count)
     # Display the image with matched template rectangles and grid
-    display_image_with_rectangles_and_grid(img.copy(), rectangle_coords, grid_coords)
+    display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords)
