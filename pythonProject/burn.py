@@ -23,9 +23,9 @@ def checkConnections(tileType, que, y, x, grid):
 # function that will burn everything that has not been burned before.
 def ignite(tileType, y, x, grid, label_id):
     queue = deque([])
-    queue.append((y, x))
+    queue.append((y, x)) # gets the (y,x)
     size = 0
-    connected_tiles = []
+    connected_tiles = [] #empty raay for the values to be stored into
 
     while queue:
         curry, currx = queue.popleft()
@@ -33,7 +33,7 @@ def ignite(tileType, y, x, grid, label_id):
         if grid[curry][currx][2] == None:
             grid[curry][currx][2] = label_id
             size += 1
-            connected_tiles.append((curry, currx))
+            connected_tiles.append((curry, currx)) # gets the boxes' connected values :)
 
             checkConnections(tileType, queue, curry, currx, grid)
 
@@ -51,6 +51,6 @@ def countpoints(path):
             if cell[2] is None:
                 label = cell[1]
                 size, connected_tiles = ignite(label, y, x, grid, currentId)
-                coordinates = (y, x)
-                print(size, "Blocks are connected", "with id", currentId, label, connected_tiles)
+                coordinates = (y, x) # was used for the single coordinates, sadly not used, but easily can below.
+                print(size, "Blocks are connected", "with id", currentId, label, connected_tiles) # prints stuff.
                 currentId += 1
