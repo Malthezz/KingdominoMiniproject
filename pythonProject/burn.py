@@ -5,6 +5,7 @@ from pythonProject.New import tileGrid
 from pythonProject.target import crown, process_labels
 
 
+
 # goes through each tile and sees if any connecting tile matches
 def checkConnections(tileType, que, y, x, grid):
     #checks the grid (if out of range)

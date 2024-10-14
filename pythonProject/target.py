@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 
 from pythonProject.NMS import non_max_suppression_fast
+from pythonProject.New import global_label
 
 
 #This part loads the templates put in Crown():
@@ -173,7 +174,8 @@ def process_labels(img, rectangle_coords, currentId):
         print(row)
     print("Crown IDs with their respective grid positions:")
     for crown_id, position in crown_ids.items():
-        print(f"Crown ID {crown_id} at grid position {position}")
+        size = ignite(label, y, x, grid, currentId)
+        print(f size "Crown ID {crown_id} at grid position {position} and label {global_label}")
 
     # Display the image with matched template rectangles and grid
     display_image_with_rectangles_and_grid(img.copy(), rectangle_coords, grid_coords)
