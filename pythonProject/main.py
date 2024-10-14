@@ -1,11 +1,11 @@
 '''
     WHAT NEEDS TO BE DONE:
-    -   CROWNS
-    -   NMS
+    -   CROWNS - check
+    -   NMS - check
 
     -   COLOURS MATCHED PERFECTLY!
 
-    -   RAPPORT
+    -   RAPPORT - meh
 
     - HIGH FIVE
 '''
@@ -13,7 +13,7 @@ from pythonProject.New import load_and_process_image
 from pythonProject.burn import countpoints
 from pythonProject.target import crown
 
-# Usage example
+# Set the image path to the specific image you want to calculate :))
 image_path = 'Croppedandperspectivecorrectedboards/4.jpg'
 
 # Load and process the image
