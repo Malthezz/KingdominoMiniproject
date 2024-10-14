@@ -39,7 +39,7 @@ def ignite(tileType, y, x, grid, id):
 def countpoints(path):
     img = cv2.imread(path)
     img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    grid = tileGrid(img_hsv)
+    grid = tileGrid(img,img_hsv)
     currentId = 0
 
     for y, rows in enumerate(grid):

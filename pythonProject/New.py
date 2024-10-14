@@ -53,7 +53,7 @@ def label_color(hsv_value, has_structure=False):
         return "Table"
 
 # creates the tilegrid [[[ grid ]]]
-def tileGrid(image):
+def tileGrid(image, image_hsv):
     grass_count = 0
     forest_count = 0
     wheat_count = 0
@@ -66,7 +66,7 @@ def tileGrid(image):
 
     # Define grid dimensions
     rows, cols = 5, 5
-    height, width, _ = image.shape
+    height, width, _ = image_hsv.shape
     cube_height = height // rows
     cube_width = width // cols
 
@@ -78,7 +78,7 @@ def tileGrid(image):
         for col in range(cols):
             x_start, x_end = col * cube_width, (col + 1) * cube_width
             y_start, y_end = row * cube_height, (row + 1) * cube_height
-            cube = image[y_start:y_end, x_start:x_end]
+            cube = image_hsv[y_start:y_end, x_start:x_end]
 
             # Calculate the average color in the cube (average HSV values)
             avg_color = cv2.mean(cube)[:3]  # Get average HSV values
