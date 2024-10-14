@@ -116,7 +116,13 @@ def crown(image):
         "1 Krone Skov.jpg",
         "1 Krone Skov 90.jpg", "1 Krone Skov 180.jpg", "1 Krone Skov 270.jpg",
         "1 Krone Water.jpg",
-        "1 Krone Water 90.jpg", "1 Krone Water 180.jpg", "1 Krone Water 270.jpg"
+        "1 Krone Water 90.jpg", "1 Krone Water 180.jpg", "1 Krone Water 270.jpg",
+        "4Krone1Sand.jpg",
+        "4Krone1Sand90.jpg", "4Krone1Sand180.jpg", "4Krone1Sand270.jpg",
+        "8Krone1Sand.jpg",
+        "8Krone1Sand90.jpg","8Krone1Sand180.jpg","8Krone1Sand270.jpg",
+        "9Krone1Sand.jpg",
+        "9Krone1Sand90.jpg", "9Krone1Sand180.jpg", "9Krone1Sand270.jpg"
     ]
 
     # List to store the grayscale templates
