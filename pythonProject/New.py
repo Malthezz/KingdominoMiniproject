@@ -73,6 +73,8 @@ def tileGrid(image, image_hsv):
     waitKey(0)
     return cube_labels
 
+
+
 # Function to assign labels based on HSV value
 def label_color(hsv_value, has_structure=False):
     h, s, v = hsv_value
@@ -109,8 +111,6 @@ def label_color(hsv_value, has_structure=False):
     # Return Unknown for values that don't fit any category
     else:
         return "Table"
-
-
 
 
 

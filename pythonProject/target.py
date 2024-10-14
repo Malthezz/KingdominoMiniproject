@@ -2,11 +2,16 @@ import cv2
 import numpy as np
 
 from pythonProject.NMS import non_max_suppression_fast
+<<<<<<< Updated upstream
 
 # Global variable to store the label
 global_label_crownId = []
 global_label_gp = []
 global_label_Crowncount = []
+=======
+from pythonProject.New import tileGrid, label_color
+from pythonProject.perspectiveTransform import image
+>>>>>>> Stashed changes
 
 
 #This part loads the templates put in Crown():
@@ -109,8 +114,8 @@ def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords)
     cv2.destroyAllWindows()
 
 #All the good stuff is put in here, so everything works elsewhere :) (hopefully)
-def crown(image):
-    img_rgb = cv2.imread(image)
+def label_image(image_path, crown_ids):
+    img_rgb = cv2.imread(image_path)
     # Convert it to grayscale
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
 
@@ -171,10 +176,30 @@ def crown(image):
     # Divide the image into a grid
     grid_coords = divide_into_grid(img_rgb, 5, 5)
 
+<<<<<<< Updated upstream
     # Map the crowns to their corresponding grid cells
     crown_count, crown_ids = crowns_to_grid(rectangle_coords, grid_coords, rows, cols)
 
     # Store the label in the global variable
     global_label_Crowncount.append(crown_count)
+=======
+    crown_count, crown_ids = crowns_to_grid(rectangle_coords, grid_coords, rows, cols)
+
+    # Create a tile grid and get the labels
+    tile_labels = tileGrid(img_rgb, cv2.cvtColor(img_rgb, cv2.COLOR_BGR2HSV))
+
+    # Print crown IDs with their corresponding labels
+    for crown_id, position in crown_ids.items():
+        label = tile_labels.get(position, "Unknown")  # Get the label or "Unknown" if not found
+        print(f"Crown ID {crown_id} at grid position {position} labeled as {label}")
+
+
+>>>>>>> Stashed changes
     # Display the image with matched template rectangles and grid
     display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords)
+
+def crown(image_path):
+    label_image(image_path, {})
+
+    # Call the crown function with the image path
+    crown(image_path)
