@@ -22,4 +22,3 @@ img, img_hsv = load_and_process_image(image_path)
 countpoints(image_path)
 
 crown(image_path)
-

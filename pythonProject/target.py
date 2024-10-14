@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 
 from pythonProject.NMS import non_max_suppression_fast
+from pythonProject.New import tileGrid, label_color
 
 
 #This part loads the templates put in Crown():
@@ -62,9 +63,10 @@ def display_image_rectangle(image, rectangle_coords):
     cv2.destroyAllWindows()
 
 #This right here finds where the crowns are located into the grid.
-def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
+def crowns_to_grid(rectangle_coords, grid_coords, label, rows, cols):
     crown_count = [[0 for _ in range(cols)] for _ in range(rows)]
     crown_ids = {}
+    crown_label = label_color()
 
     # ID counter
     current_crown_id = 0
@@ -78,10 +80,10 @@ def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
                 crown_ids[current_crown_id] = (row, col)  # Assign ID to crown's grid position
                 current_crown_id += 1
                 break
-                sorted_crowns = sorted(crown_ids, key=lambda grid: (row, col, rect))
-                print(sorted_crowns)
+                #sorted_crowns = sorted(crown_ids, key=lambda grid: (row, col, rect))
+                #print(sorted_crowns)
 
-    return crown_count, crown_ids
+    return crown_count, crown_ids, crown_label
 
 #Displays the rectangles and the grid.
 def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords):
@@ -102,6 +104,7 @@ def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords)
 #All the good stuff is put in here, so everything works elsewhere :) (hopefully)
 def crown(image):
     img_rgb = cv2.imread(image)
+    label = label_color()
     # Convert it to grayscale
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
 
@@ -163,15 +166,15 @@ def crown(image):
     grid_coords = divide_into_grid(img_rgb, 5, 5)
 
     # Map the crowns to their corresponding grid cells
-    crown_count, crown_ids = crowns_to_grid(rectangle_coords, grid_coords, rows, cols)
+    crown_count, crown_ids, crown_label = crowns_to_grid(rectangle_coords, grid_coords, label, rows, cols)
 
     # Print crown count and IDs
     print("Crown count in each grid cell:")
     for row in crown_count:
         print(row)
     print("Crown IDs with their respective grid positions:")
-    for crown_id, position in crown_ids.items():
-        print(f"Crown ID {crown_id} at grid position {position}")
+    for crown_id, position_id, crown_label in crown_ids.items():
+        print(f"Crown ID {crown_id} at grid position {position_id} and label {crown_label}")
 
     # Display the image with matched template rectangles and grid
     display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords)
