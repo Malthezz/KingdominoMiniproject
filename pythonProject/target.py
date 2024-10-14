@@ -3,6 +3,7 @@ import numpy as np
 
 from pythonProject.NMS import non_max_suppression_fast
 from pythonProject.New import tileGrid, label_color
+from pythonProject.burn import ignite
 
 
 #This part loads the templates put in Crown():
@@ -178,3 +179,40 @@ def crown(image):
 
     # Display the image with matched template rectangles and grid
     display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords)
+
+
+def point_calculator(image_path, grid, templates):
+    # Step 1: Count the connected blocks using `countpoints`.
+    connected_blocks = []  # This will store sizes of connected blocks and their coordinates
+    currentId = 0
+
+    for y, rows in enumerate(grid):
+        for x, cell in enumerate(rows):
+            if cell[2] is None:
+                label = cell[1]
+                size, connected_tiles = ignite(label, y, x, grid, currentId)
+                connected_blocks.append(
+                    (size, connected_tiles))  # Store the size of the connected block and the coordinates
+                currentId += 1
+
+    # Step 2: Detect crowns using `match_templates`.
+    img_gray = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    crown_coords = match_templates(img_gray, templates)
+
+    # Step 3: Check how many crowns are within the connected blocks.
+    total_multiplier = 0
+
+    for size, tiles in connected_blocks:
+        crown_count = 0
+        for tile in tiles:
+            y, x = tile
+            for crown in crown_coords:
+                top_left, top_right, bottom_left, bottom_right = crown
+                # Check if the tile falls within the crown's bounding box
+                if top_left[0] <= x <= bottom_right[0] and top_left[1] <= y <= bottom_right[1]:
+                    crown_count += 1
+
+        if crown_count > 0:
+            total_multiplier += size * crown_count
+
+    return total_multiplier
