@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from cv2 import waitKey
 
+# Thresholds have been checked with pictures: 1,2,3,5,6,22,26,38
 
 # Function to load and process the image
 def load_and_process_image(image_path):
