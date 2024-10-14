@@ -49,7 +49,7 @@ def countpoints(path):
             if cell[2] is None:
                 label = cell[1]
                 size = ignite(label, y, x, grid, currentId)
-                print(size, "Blocks are connected", "with id", label)
+                print(size, "Blocks are connected", "with id", currentId, label)
                 currentId += 1
 
 

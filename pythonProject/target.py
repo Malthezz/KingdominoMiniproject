@@ -64,16 +64,24 @@ def display_image_rectangle(image, rectangle_coords):
 #This right here finds where the crowns are located into the grid.
 def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
     crown_count = [[0 for _ in range(cols)] for _ in range(rows)]
+    crown_ids = {}
+
+    # ID counter
+    current_crown_id = 0
+
     for rect in rectangle_coords:
         top_left = rect[0]
         for grid in grid_coords:
             (row,col), (x_start, y_start, x_end, y_end) = grid
-
+            print(grid)
             if x_start <= top_left[0] <= x_end and y_start <= top_left[1] <= y_end:
                 crown_count[row][col] += 1
+                crown_ids[current_crown_id] = (row, col)  # Assign ID to crown's grid position
+                current_crown_id += 1
                 break
-        #sorted_crowns = sorted(crown_grid, key=lambda grid: (row,col,rect))
+        #sorted_crowns = sorted(crown_count, key=lambda grid: (row,col,rect))
         #print(sorted_crowns)
+
     return crown_count
 
 #Displays the rectangles and the grid.
@@ -152,19 +160,22 @@ def crown(image):
     ]
 
     # Print matched rectangle coordinates
-    # print("Matched Rectangle Coordinates:", np.array(rectangle_coords))
+    print("Matched Rectangle Coordinates:", np.array(rectangle_coords))
 
     rows, cols = 5,5
     # Divide the image into a grid
     grid_coords = divide_into_grid(img_rgb, 5, 5)
 
     # Map the crowns to their corresponding grid cells
-    crown_count = crowns_to_grid(rectangle_coords, grid_coords, rows, cols)
+    crown_count, crown_ids = crowns_to_grid(rectangle_coords, grid_coords, rows, cols)
 
-    # Display the crown count grid
+    # Print crown count and IDs
     print("Crown count in each grid cell:")
     for row in crown_count:
         print(row)
+    print("Crown IDs with their respective grid positions:")
+    for crown_id, position in crown_ids.items():
+        print(f"Crown ID {crown_id} at grid position {position}")
 
     # Display the image with matched template rectangles and grid
     display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords)

@@ -13,45 +13,6 @@ def load_and_process_image(image_path):
 
     return img, img_hsv
 
-# Function to assign labels based on HSV value
-def label_color(hsv_value, has_structure=False):
-    h, s, v = hsv_value
-
-    # Adjusted ranges for Water
-
-    if (h >= 70 and h <= 110) and (s >= 190 and s <= 255) and (v >= 112 and v <= 192):
-        if has_structure:
-            return "Under Structure"  # or "Obstructed Water"
-        return "Water"
-
-    # Adjusted ranges for Sand
-    elif (h >= 20 and h <= 30) and (s >= 216 and s <= 255) and (v >= 141 and v <= 255):
-        return "Sand"
-
-    # Adjusted ranges for Grass
-    elif (h >= 31 and h <= 49) and (s >= 161 and s <= 227) and (v >= 85 and v <= 160):
-        return "Grass"
-
-    # Refined range for Rock
-    elif (h >= 18.5 and h <= 29.5) and (s >= 84 and s <= 167) and (v >= 73.5 and v <= 123):
-        return "Rock"
-
-    # Adjusted ranges for Mines
-    elif (h >= 28 and h <= 51) and (s >= 69 and s <= 136) and (v >= 43 and v <= 80):
-        return "Mines"
-
-    # Adjusted ranges for Forrest
-    elif (h >= 29 and h <= 52) and (s >= 100 and s <= 200) and (v >= 40 and v <= 76):
-        return "Forest"
-
-    # Adjusted ranges for Castle
-    elif (h >= 23 and h <= 58) and (s >= 67 and s <= 140) and (v >= 71 and v <= 148):
-        return "Castle"
-
-    # Return Unknown for values that don't fit any category
-    else:
-        return "Table"
-
 # creates the tilegrid [[[ grid ]]]
 def tileGrid(image, image_hsv):
     label_counts = {
