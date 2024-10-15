@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 from cv2 import waitKey
 
 # Thresholds have been checked with pictures: 1,2,3,5,6,22,26,38
@@ -45,22 +44,22 @@ def tileGrid(image, image_hsv):
             cube = image_hsv[y_start:y_end, x_start:x_end]
 
             # Calculate the average color in the cube (average HSV values)
-            avg_color = cv2.mean(cube)[:3]  # Get average HSV values
-
-            # Debug output: print the average HSV color
-            # print(f"Average HSV color for cube ({row}, {col}): {avg_color}")
+            avg_color = cv2.mean(cube)[:3]
 
             # Predict and assign the label based on the average color
             label = label_color(avg_color)
 
             # Store the result
-            # cube_labels.append(((row, col), label, None))
             data = [(row,col),label,None]
             row_list.append(data)
 
+<<<<<<< Updated upstream
             # print(f"Cube at position ({row}, {col}) labeled as {label}")
             # print(cube_labels)
             # Draw a rectangle and label the tile.
+=======
+            # Draw a rectangle and label the color
+>>>>>>> Stashed changes
             cv2.rectangle(image, (x_start, y_start), (x_end, y_end), (0, 255, 0), 2)  # Draw rectangle
             cv2.putText(image, label, (x_start + 5, y_start + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
@@ -74,11 +73,10 @@ def tileGrid(image, image_hsv):
     return cube_labels
 
 # Function to assign labels based on HSV value
-def label_color(hsv_value, has_structure=False):
+def label_color(hsv_value):
     h, s, v = hsv_value
 
     # Adjusted ranges for Water
-
     if (h >= 70 and h <= 110) and (s >= 190 and s <= 255) and (v >= 112 and v <= 192):
         return "Water"
 

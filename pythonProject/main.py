@@ -1,12 +1,16 @@
 from pythonProject.New import load_and_process_image, tileGrid
-from pythonProject.burn import countpoints, ignite, getConnectedTiles
-from pythonProject.target import crown, divide_into_grid, match_templates, load_templates
-from pythonProject.target import point_calculator  # Import the new function
+from pythonProject.burn import countpoints, getConnectedTiles
+from pythonProject.target import crown, load_templates
+from pythonProject.target import point_calculator
 
+<<<<<<< Updated upstream
 # Set the image path to the specific image you want to calculate
 image_path = 'Croppedandperspectivecorrectedboards/3.jpg'
+=======
+# Set the image path
+image_path = 'Croppedandperspectivecorrectedboards/1.jpg'
+>>>>>>> Stashed changes
 
-# Original functionality preserved
 # Load and process the image
 img, img_hsv = load_and_process_image(image_path)
 
@@ -46,16 +50,16 @@ templates = load_templates(template_files)
 # Step 3: Call the new function to multiply connected blocks with crowns
 result = point_calculator(image_path, grid, templates)
 
-myscore = 0
+myscore = 0 # Score set to 0 as default
 crown_detect = crown(image_path)  # Detect crowns from the image
 print("Crowns detected:", crown_detect)
 
 Tiles = getConnectedTiles()  # Get connected tiles
 print("this is tiles", Tiles)
 
-# Convert crown_detect to a set of coordinates for easy lookup
+# Convert crown_detect to a set of coordinates
 if crown_detect is not None:
-    crown_set = set(tuple(crown) for crown in crown_detect)  # Convert to set of tuples for quick lookup
+    crown_set = set(tuple(crown) for crown in crown_detect)  # Uses tuple to create and return a new object for each crown
 
     # Loop through each group of connected tiles
     for tile_group in Tiles:
@@ -63,13 +67,13 @@ if crown_detect is not None:
         group_size = 0
         group_tile_id = None  # To track the tile ID of the group
 
-        # Iterate through the tiles in the group
+        # Iterate through the tiles in the tile group
         for tile in tile_group:
             coord = tile[0]  # Extract the coordinate
-            terrain = tile[1]  # Extract the terrain type (not needed here)
-            tile_id = tile[2]  # Extract the tile ID to determine connectedness
+            terrain = tile[1]  # Extract the terrain type
+            tile_id = tile[2]  # Extract the tile ID to see if they are connected
 
-            # Set the tile ID for the group, assuming all tiles in the group share the same ID
+            # Set the tile ID for the group
             if group_tile_id is None:
                 group_tile_id = tile_id
             elif group_tile_id != tile_id:
