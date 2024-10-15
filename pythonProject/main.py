@@ -1,14 +1,3 @@
-'''
-    WHAT NEEDS TO BE DONE:
-    -   CROWNS - check
-    -   NMS - check
-
-    -   COLOURS MATCHED PERFECTLY!
-
-    -   RAPPORT - meh
-
-    - HIGH FIVE
-'''
 from pythonProject.New import load_and_process_image, tileGrid
 from pythonProject.burn import countpoints, ignite, getConnectedTiles
 from pythonProject.target import crown, divide_into_grid, match_templates, load_templates
