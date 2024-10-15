@@ -3,13 +3,12 @@ from pythonProject.burn import countpoints, getConnectedTiles
 from pythonProject.target import crown, load_templates
 from pythonProject.target import point_calculator
 
-<<<<<<< Updated upstream
 # Set the image path to the specific image you want to calculate
 image_path = 'Croppedandperspectivecorrectedboards/3.jpg'
-=======
+
 # Set the image path
 image_path = 'Croppedandperspectivecorrectedboards/1.jpg'
->>>>>>> Stashed changes
+
 
 # Load and process the image
 img, img_hsv = load_and_process_image(image_path)

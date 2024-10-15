@@ -53,13 +53,11 @@ def tileGrid(image, image_hsv):
             data = [(row,col),label,None]
             row_list.append(data)
 
-<<<<<<< Updated upstream
             # print(f"Cube at position ({row}, {col}) labeled as {label}")
             # print(cube_labels)
             # Draw a rectangle and label the tile.
-=======
             # Draw a rectangle and label the color
->>>>>>> Stashed changes
+
             cv2.rectangle(image, (x_start, y_start), (x_end, y_end), (0, 255, 0), 2)  # Draw rectangle
             cv2.putText(image, label, (x_start + 5, y_start + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
