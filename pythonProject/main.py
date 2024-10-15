@@ -13,10 +13,6 @@ img, img_hsv = load_and_process_image(image_path)
 # Call the original `countpoints` function
 countpoints(image_path)
 
-# Call the original `crown` function
-
-# --- New functionality starts here ---
-
 # Step 1: Generate a grid using `tileGrid`
 grid = tileGrid(img, img_hsv)
 
