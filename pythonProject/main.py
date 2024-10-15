@@ -4,7 +4,7 @@ from pythonProject.target import crown, divide_into_grid, match_templates, load_
 from pythonProject.target import point_calculator  # Import the new function
 
 # Set the image path to the specific image you want to calculate
-image_path = 'Croppedandperspectivecorrectedboards/1.jpg'
+image_path = 'Croppedandperspectivecorrectedboards/3.jpg'
 
 # Original functionality preserved
 # Load and process the image
@@ -77,7 +77,7 @@ if crown_detect is not None:
             if group_tile_id is None:
                 group_tile_id = tile_id
             elif group_tile_id != tile_id:
-                print("Warning: Mismatched tile ID within a group, something might be wrong.")
+                print("Warning: Mismatched tile ID within a group, something might be wrong hehe.")
 
             group_size += 1  # Count the number of tiles in the group
 

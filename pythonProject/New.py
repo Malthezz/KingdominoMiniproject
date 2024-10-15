@@ -37,9 +37,9 @@ def tileGrid(image, image_hsv):
 
     # Loop through the grid and assign labels to each cube
     cube_labels = []
-    for row in range(rows):
+    for row in range(rows): # starts top left and goes right
         row_list =[]
-        for col in range(cols):
+        for col in range(cols): # starts top left and goes down
             x_start, x_end = col * cube_width, (col + 1) * cube_width
             y_start, y_end = row * cube_height, (row + 1) * cube_height
             cube = image_hsv[y_start:y_end, x_start:x_end]
@@ -60,7 +60,7 @@ def tileGrid(image, image_hsv):
 
             # print(f"Cube at position ({row}, {col}) labeled as {label}")
             # print(cube_labels)
-            # Draw a rectangle and label the color
+            # Draw a rectangle and label the tile.
             cv2.rectangle(image, (x_start, y_start), (x_end, y_end), (0, 255, 0), 2)  # Draw rectangle
             cv2.putText(image, label, (x_start + 5, y_start + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 

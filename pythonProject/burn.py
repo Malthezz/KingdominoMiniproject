@@ -4,7 +4,7 @@ import cv2
 from pythonProject.New import tileGrid
 from pythonProject.target import crown, divide_into_grid, crowns_to_grid
 
-importanttiles = []
+importanttiles = [] # a global value
 
 # goes through each tile and sees if any connecting tile matches
 def checkConnections(tileType, que, y, x, grid):
@@ -21,8 +21,9 @@ def checkConnections(tileType, que, y, x, grid):
     if x < cols - 1 and grid[y][x + 1][1] == tileType and grid[y][x + 1][2] is None:
         que.append((y, x + 1))
 
-    global importanttiles
-    importanttiles = grid
+    global importanttiles # creates a global value that we use in main
+    importanttiles = grid # here we actually assign the value
+
 # function that will burn everything that has not been burned before.
 def ignite(tileType, y, x, grid, label_id):
     queue = deque([])
@@ -59,4 +60,4 @@ def countpoints(path):
                 currentId += 1
 
 def getConnectedTiles():
-    return importanttiles
+    return importanttiles # and here we return it, so we actually can use it.
