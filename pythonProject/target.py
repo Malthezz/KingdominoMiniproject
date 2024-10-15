@@ -61,41 +61,65 @@ def display_image_rectangle(image, rectangle_coords):
 
 #This right here finds where the crowns are located into the grid.
 def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
+    # Initialize a 2D list for counting crowns in each grid cell
     crown_count = [[0 for _ in range(cols)] for _ in range(rows)]
     crown_ids = {}
 
-    # ID counter
+    # Create a labels matrix initialized with None
+    labels = [[None for _ in range(cols)] for _ in range(rows)]
+
+    # ID counter for crowns
     current_crown_id = 0
 
+    # Iterate through the rectangles representing the positions of crowns
     for rect in rectangle_coords:
-        top_left = rect[0]
+        top_left = rect[0]  # Assume rect is a tuple/list with the top-left corner as its first element
         for grid in grid_coords:
-            (row,col), (x_start, y_start, x_end, y_end) = grid
+            (row, col), (x_start, y_start, x_end, y_end) = grid
+            # Check if the top-left corner of the crown is within the grid cell
             if x_start <= top_left[0] <= x_end and y_start <= top_left[1] <= y_end:
+                # Increment the count of crowns in the corresponding grid cell
                 crown_count[row][col] += 1
+<<<<<<< Updated upstream
                 crown_ids[current_crown_id] = (row, col)  # Assign ID to crown's grid position
                 current_crown_id += 1
                 break
                 
                 # sorted_crowns = sorted(crown_ids, key=lambda grid: (row, col, rect))
                 # print(sorted_crowns)
+=======
+                # Assign an ID to the crown's grid position
+                crown_ids[current_crown_id] = (row, col)
+                # Assign a label to the tile in the labels matrix
+                labels[row][col] = f'Crown_{current_crown_id}'  # Label format
+                current_crown_id += 1  # Increment the crown ID counter
+                break  # Exit the inner loop once the crown is assigned
 
-    return crown_count, crown_ids
+    # Return the count of crowns, their IDs, and the labels matrix
+    return crown_count, crown_ids, labels
+>>>>>>> Stashed changes
+
 
 #Displays the rectangles and the grid.
-def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords):
+def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords, labels):
     # Draw rectangles around matched crowns
     for rect in rectangle_coords:
-        top_left, top_right, bottom_left, bottom_right = rect
+        top_left, _, _, bottom_right = rect
         cv2.rectangle(image, top_left, bottom_right, (0, 255, 255), 2)
 
-    # Draw the grid over the image
+    # Draw the grid over the image and add labels
     for grid in grid_coords:
-        _, (x_start, y_start, x_end, y_end) = grid
+        (row, col), (x_start, y_start, x_end, y_end) = grid
         cv2.rectangle(image, (x_start, y_start), (x_end, y_end), (255, 0, 0), 1)
+
+        # Add label to the center of the grid cell if it exists
+        if labels[row][col] is not None:
+            cv2.putText(image, labels[row][col], (x_start + 5, y_start + 20),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
     cv2.imshow('Detected Crowns with Grid', image)
     cv2.waitKey(0)
+<<<<<<< Updated upstream
 
 def point_calculator(image_path, crown_ids, templates, grid):
     from pythonProject.burn import ignite
@@ -137,6 +161,8 @@ def point_calculator(image_path, crown_ids, templates, grid):
 
     print(f"Total sum: {total_sum}")
     return total_sum
+=======
+>>>>>>> Stashed changes
 
 #All the good stuff is put in here, so everything works elsewhere :) (hopefully)
 def crown(image):
@@ -146,40 +172,29 @@ def crown(image):
 
     # List of template file names
     template_files = [
-        "1 Krone1 Desert.jpg",
-        "1 Krone1 Desert 90.jpg", "1 Krone1 Desert 180.jpg", "1 Krone1 Desert 270.jpg",
-        "1 Krone1 Grass.jpg",
-        "1 Krone1 Grass 90.jpg", "1 Krone1 Grass 180.jpg", "1 Krone1 Grass 270.jpg",
-        "1 Krone2 Desert.jpg",
-        "1 Krone2 Desert 90.jpg", "1 Krone2 Desert 180.jpg", "1 Krone2 Desert 270.jpg",
-        "1 Krone2 Grass.jpg",
-        "1 Krone2 Grass 90.jpg", "1 Krone2 Grass 180.jpg", "1 Krone2 Grass 270.jpg",
-        "1 Krone3 Desert.jpg",
-        "1 Krone3 Desert 90.jpg", "1 Krone3 Desert 180.jpg", "1 Krone3 Desert 270.jpg",
-        "1 Krone3 Grass.jpg",
-        "1 Krone3 Grass 90.jpg", "1 Krone3 Grass 180.jpg", "1 Krone3 Grass 270.jpg",
-        "1 Krone Skov.jpg",
-        "1 Krone Skov 90.jpg", "1 Krone Skov 180.jpg", "1 Krone Skov 270.jpg",
-        "1 Krone Water.jpg",
-        "1 Krone Water 90.jpg", "1 Krone Water 180.jpg", "1 Krone Water 270.jpg",
-        "4Krone1Sand.jpg",
-        "4Krone1Sand90.jpg", "4Krone1Sand180.jpg", "4Krone1Sand270.jpg",
-        "8Krone1Sand.jpg",
-        "8Krone1Sand90.jpg","8Krone1Sand180.jpg","8Krone1Sand270.jpg",
-        "9Krone1Sand.jpg",
-        "9Krone1Sand90.jpg", "9Krone1Sand180.jpg", "9Krone1Sand270.jpg"
+        "1 Krone1 Desert.jpg", "1 Krone1 Desert 90.jpg", "1 Krone1 Desert 180.jpg", "1 Krone1 Desert 270.jpg",
+        "1 Krone1 Grass.jpg", "1 Krone1 Grass 90.jpg", "1 Krone1 Grass 180.jpg", "1 Krone1 Grass 270.jpg",
+        "1 Krone2 Desert.jpg", "1 Krone2 Desert 90.jpg", "1 Krone2 Desert 180.jpg", "1 Krone2 Desert 270.jpg",
+        "1 Krone2 Grass.jpg", "1 Krone2 Grass 90.jpg", "1 Krone2 Grass 180.jpg", "1 Krone2 Grass 270.jpg",
+        "1 Krone3 Desert.jpg", "1 Krone3 Desert 90.jpg", "1 Krone3 Desert 180.jpg", "1 Krone3 Desert 270.jpg",
+        "1 Krone3 Grass.jpg", "1 Krone3 Grass 90.jpg", "1 Krone3 Grass 180.jpg", "1 Krone3 Grass 270.jpg",
+        "1 Krone Skov.jpg", "1 Krone Skov 90.jpg", "1 Krone Skov 180.jpg", "1 Krone Skov 270.jpg",
+        "1 Krone Water.jpg", "1 Krone Water 90.jpg", "1 Krone Water 180.jpg", "1 Krone Water 270.jpg",
+        "4Krone1Sand.jpg", "4Krone1Sand90.jpg", "4Krone1Sand180.jpg", "4Krone1Sand270.jpg",
+        "8Krone1Sand.jpg", "8Krone1Sand90.jpg", "8Krone1Sand180.jpg", "8Krone1Sand270.jpg",
+        "9Krone1Sand.jpg", "9Krone1Sand90.jpg", "9Krone1Sand180.jpg", "9Krone1Sand270.jpg"
     ]
+<<<<<<< Updated upstream
     templates = load_templates(template_files)
+=======
+>>>>>>> Stashed changes
 
-    for template_file in template_files:
-        template = cv2.imread(template_file, cv2.IMREAD_GRAYSCALE)
-        template = cv2.rotate(template, cv2.ROTATE_90_CLOCKWISE)
-        templates.append(template)
+    templates = load_templates(template_files)
 
     # Perform template matching
     rectangle_coords = match_templates(img_gray, templates, 0.8)
 
-    #NMS NON MAXIMUM SUPRESSON
+    # NMS NON MAXIMUM SUPPRESSION
     # Apply non-max suppression to reduce overlapping detections
     if len(rectangle_coords) > 0:
         rectangle_coords = np.array([[
@@ -195,14 +210,16 @@ def crown(image):
         for rect in rectangle_coords
     ]
 
-    # Print matched rectangle coordinates
-    # print("Matched Rectangle Coordinates:", np.array(rectangle_coords))
-
-    rows, cols = 5,5
+    rows, cols = 5, 5
     # Divide the image into a grid
-    grid_coords = divide_into_grid(img_rgb, 5, 5)
+    grid_coords = divide_into_grid(img_rgb, rows, cols)
 
+<<<<<<< Updated upstream
     crown_count, crown_ids = crowns_to_grid(rectangle_coords, grid_coords, rows, cols)
+=======
+    # Map the crowns to their corresponding grid cells
+    crown_count, crown_ids, labels = crowns_to_grid(rectangle_coords, grid_coords, rows, cols)
+>>>>>>> Stashed changes
 
     total_score = point_calculator(image_path, crown_ids, templates, grid_coords)
 
@@ -216,9 +233,57 @@ def crown(image):
         print(row)
     print("Crown IDs with their respective grid positions:")
     for crown_id, position in crown_ids.items():
-        print(f"Crown ID {crown_id} at grid position {position}")
+        print(f"Crown ID {crown_id} {labels[position[0]][position[1]]} at grid position {position}")
 
+<<<<<<< Updated upstream
     # Display the image with matched template rectangles and grid
     display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords)'''
 
 
+=======
+    print(labels)
+    # Display the image with matched template rectangles, grid, and labels
+    display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords, labels)
+
+
+def point_calculator(image_path, grid, templates):
+    from pythonProject.burn import ignite
+    # Step 1: Count the connected blocks using `countpoints`.
+    connected_blocks = []
+    currentId = 0
+
+    # Step 1: Count the connected blocks
+    for y, rows in enumerate(grid):
+        for x, cell in enumerate(rows):
+            if cell[2] is None:
+                label = cell[1]
+                size, connected_tiles = ignite(label, y, x, grid, currentId)
+                connected_blocks.append((size, connected_tiles))  # Store size and connected block tiles
+                currentId += 1
+
+    # Step 2: Detect crowns
+    img_gray = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    crown_coords = match_templates(img_gray, templates)
+
+    total_sum = 0
+
+    # Step 3: For each connected block, multiply its size by the number of crowns within it
+    for size, tiles in connected_blocks:
+        crown_count = 0
+        for tile in tiles:
+            y, x = tile
+            for crown in crown_coords:
+                top_left, _, _, bottom_right = crown
+                # Check if the tile falls within the crown's bounding box
+                if top_left[0] <= x <= bottom_right[0] and top_left[1] <= y <= bottom_right[1]:
+                    crown_count += 1
+
+        # If there are crowns in this block, multiply block size by the crown count and add to total sum
+        if crown_count > 0:
+            block_value = size * crown_count
+            print(f"Block of size {size} has {crown_count} crowns, value: {block_value}")
+            total_sum += block_value
+
+    print(f"Total sum: {total_sum}")
+    return total_sum
+>>>>>>> Stashed changes
