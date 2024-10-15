@@ -58,7 +58,7 @@ print("this is tiles", Tiles)
 
 # Convert crown_detect to a set of coordinates
 if crown_detect is not None:
-    crown_set = set(tuple(crown) for crown in crown_detect)  # Uses tuple to create and return a new object for each crown
+    crown_set = set(tuple(crown) for crown in crown_detect)  # Uses tuple to create and return a new object for each crown :)
 
     # Loop through each group of connected tiles
     for tile_group in Tiles:
@@ -68,15 +68,15 @@ if crown_detect is not None:
 
         # Iterate through the tiles in the tile group
         for tile in tile_group:
-            coord = tile[0]  # Extract the coordinate
-            terrain = tile[1]  # Extract the terrain type
+            coord = tile[0]  # Extract the coordinat
+            terrain = tile[1]  # Extract the terrain type eg. sand, water
             tile_id = tile[2]  # Extract the tile ID to see if they are connected
 
             # Set the tile ID for the group
             if group_tile_id is None:
                 group_tile_id = tile_id
             elif group_tile_id != tile_id:
-                print("Warning: Mismatched tile ID within a group, something might be wrong hehe.")
+                print("Something might be wrong hehe.")
 
             group_size += 1  # Count the number of tiles in the group
 
@@ -88,7 +88,7 @@ if crown_detect is not None:
         if crownsInGroup > 0:
             group_score = group_size * crownsInGroup
             myscore += group_score
-            print(f"Group with tile ID {group_tile_id} has {crownsInGroup} crowns. Group score: {group_score}")
+            print(f"Group with label {terrain} has {crownsInGroup} crowns. Group score: {group_score}")
 
 # Print the final score
 print("Final score:", myscore)
