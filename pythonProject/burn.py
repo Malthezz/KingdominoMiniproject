@@ -25,7 +25,7 @@ def ignite(tileType, y, x, grid, label_id):
     queue = deque([])
     queue.append((y, x)) # gets the (y,x)
     size = 0
-    connected_tiles = [] #empty raay for the values to be stored into
+    connected_tiles = [] #empty list for the values to be stored into
 
     while queue:
         curry, currx = queue.popleft()
@@ -37,7 +37,7 @@ def ignite(tileType, y, x, grid, label_id):
 
             checkConnections(tileType, queue, curry, currx, grid)
 
-    return size, connected_tiles
+    return size
 
 # tells and counts the size of the blobs and puts an id.
 def countpoints(path):

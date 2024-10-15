@@ -3,7 +3,13 @@ import numpy as np
 
 from pythonProject.NMS import non_max_suppression_fast
 from pythonProject.New import tileGrid, label_color
+<<<<<<< Updated upstream
 from pythonProject.main import image_path
+=======
+from pythonProject.main import connected_tiles
+
+tilecomplete = []
+>>>>>>> Stashed changes
 
 
 #This part loads the templates put in Crown():
@@ -87,6 +93,7 @@ def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
                 
                 # sorted_crowns = sorted(crown_ids, key=lambda grid: (row, col, rect))
                 # print(sorted_crowns)
+<<<<<<< Updated upstream
 =======
                 # Assign an ID to the crown's grid position
                 crown_ids[current_crown_id] = (row, col)
@@ -97,6 +104,8 @@ def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
 
     # Return the count of crowns, their IDs, and the labels matrix
     return crown_count, crown_ids, labels
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 
@@ -166,6 +175,8 @@ def point_calculator(image_path, crown_ids, templates, grid):
 
 #All the good stuff is put in here, so everything works elsewhere :) (hopefully)
 def crown(image):
+
+    crown_list = []
     img_rgb = cv2.imread(image)
     # Convert it to grayscale
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
@@ -233,7 +244,13 @@ def crown(image):
         print(row)
     print("Crown IDs with their respective grid positions:")
     for crown_id, position in crown_ids.items():
+<<<<<<< Updated upstream
         print(f"Crown ID {crown_id} {labels[position[0]][position[1]]} at grid position {position}")
+=======
+        print(f"Crown ID {crown_id} at grid position {position}")
+        crown_list.append(position)
+
+>>>>>>> Stashed changes
 
 <<<<<<< Updated upstream
     # Display the image with matched template rectangles and grid
@@ -245,12 +262,16 @@ def crown(image):
     # Display the image with matched template rectangles, grid, and labels
     display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords, labels)
 
+    sorted_crown_list = sorted(crown_list, key=lambda coord: (coord[0], coord[1]))
+    return sorted_crown_list
+
 
 def point_calculator(image_path, grid, templates):
     from pythonProject.burn import ignite
     # Step 1: Count the connected blocks using `countpoints`.
     connected_blocks = []
     currentId = 0
+    global tilecomplete
 
     # Step 1: Count the connected blocks
     for y, rows in enumerate(grid):
@@ -260,6 +281,8 @@ def point_calculator(image_path, grid, templates):
                 size, connected_tiles = ignite(label, y, x, grid, currentId)
                 connected_blocks.append((size, connected_tiles))  # Store size and connected block tiles
                 currentId += 1
+
+                tilecomplete.append(connected_tiles)
 
     # Step 2: Detect crowns
     img_gray = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
@@ -285,5 +308,13 @@ def point_calculator(image_path, grid, templates):
             total_sum += block_value
 
     print(f"Total sum: {total_sum}")
+<<<<<<< Updated upstream
     return total_sum
+>>>>>>> Stashed changes
+=======
+    return total_sum, connected_tiles
+
+def get_groups():
+    global tilecomplete
+    return tilecomplete
 >>>>>>> Stashed changes

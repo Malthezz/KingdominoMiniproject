@@ -10,8 +10,13 @@
     - HIGH FIVE
 '''
 from pythonProject.New import load_and_process_image, tileGrid
+<<<<<<< Updated upstream
 from pythonProject.burn import countpoints
 from pythonProject.target import crown, load_templates
+=======
+from pythonProject.burn import countpoints, ignite
+from pythonProject.target import crown, divide_into_grid, match_templates, load_templates, tilecomplete, get_groups
+>>>>>>> Stashed changes
 from pythonProject.target import point_calculator  # Import the new function
 
 from pythonProject.New import load_and_process_image, tileGrid
@@ -26,8 +31,14 @@ def main():
     # Load and process the image
     img, img_hsv = load_and_process_image(image_path)
 
+<<<<<<< Updated upstream
     # Call the original `countpoints` function
     countpoints(image_path)
+=======
+# Call the original `crown` function
+crown_detect = crown(image_path)
+print(crown_detect)
+>>>>>>> Stashed changes
 
     # Call the original `crown` function
     crown(image_path)
@@ -64,6 +75,7 @@ def main():
     ]  # Update with actual paths
     templates = load_templates(template_files)
 
+<<<<<<< Updated upstream
     # Step 3: Call the new function to multiply connected blocks with crowns
     result = point_calculator(image_path, grid, templates)
 
@@ -73,3 +85,29 @@ def main():
 # Entry point
 if __name__ == '__main__':
     main()
+=======
+myscore = 0
+sortedCrowns = crown(image_path)
+'''connected_tiles = get_groups()'''
+
+# Convert foundCrowns to a set of hashable tuples if foundCrowns is not None
+if sortedCrowns is not None:
+    print("Crowns detected:", sortedCrowns)
+    # Assuming foundCrowns contains lists of coordinates (e.g., [x, y])
+    crown_set = set(tuple(crown) for crown in sortedCrowns)
+
+    # Loop through each group and its coordinates
+    for group, coordinates in []:
+        crownsInGroup = 0
+        # Check each coordinate in the group
+        for coord in coordinates:
+            # Convert coord to a tuple if needed and check if it's in crown_set
+            if tuple(coord) in crown_set:
+                crownsInGroup += 1
+        if crownsInGroup > 0:
+            myscore += len(coordinates) * crownsInGroup
+            print(myscore)
+
+# Print the new result
+print(f'Total multiplier (connected blocks * crowns): {myscore}')
+>>>>>>> Stashed changes
