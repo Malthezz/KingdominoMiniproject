@@ -65,46 +65,39 @@ myscore = 0
 crown_detect = crown(image_path)  # Detect crowns from the image
 print("Crowns detected:", crown_detect)
 
-Tiles = getConnectedTiles()  # Get connected tiles
-print("this is tiles", Tiles)
+# Call the countpoints function to get connected tile groups
+connected_groups = countpoints(image_path)  # Ensure this returns a valid structure
 
-# Convert crown_detect to a set of coordinates for easy lookup
-if crown_detect is not None:
-    crown_set = set(tuple(crown) for crown in crown_detect)  # Convert to set of tuples for quick lookup
+# Check if connected_groups is None or empty
+if connected_groups is None:
+    print("No connected groups found.")
+else:
+    # Convert crown_detect to a set of coordinates for easy lookup
+    if crown_detect is not None:
+        crown_set = set(tuple(crown) for crown in crown_detect)  # Convert to set of tuples for quick lookup
 
-    # Loop through each group of connected tiles
-    for tile_group in Tiles:
-        crownsInGroup = 0
-        group_size = 0
-        group_tile_id = None  # To track the tile ID of the group
+        # Loop through each group of connected tiles returned by countpoints
+        for currentId, connected_tiles in connected_groups.items():
+            crownsInGroup = 0
+            group_size = len(connected_tiles)  # Size of the current connected tile group
 
-        # Iterate through the tiles in the group
-        for tile in tile_group:
-            coord = tile[0]  # Extract the coordinate
-            terrain = tile[1]  # Extract the terrain type (not needed here)
-            tile_id = tile[2]  # Extract the tile ID to determine connectedness
+            # Iterate through the tiles in the connected group
+            for tile in connected_tiles:
+                coord = tile[0]  # Extract the coordinate
+                terrain = tile[1]  # Extract the terrain type (not needed here)
+                #tile_id = tile[2]  # Extract the tile ID (not used in scoring)
 
-            # Set the tile ID for the group, assuming all tiles in the group share the same ID
-            if group_tile_id is None:
-                group_tile_id = tile_id
-            elif group_tile_id != tile_id:
-                print("Warning: Mismatched tile ID within a group, something might be wrong.")
+                # If the tile's coordinate matches a crown, increase the crown count
+                if coord in crown_set:
+                    crownsInGroup += 1  # Increase crown count for this group
 
-            group_size += 1  # Count the number of tiles in the group
-
-            # If the tile's coordinate matches a crown, increase the crown count
-            if coord in crown_set:
-                crownsInGroup += 1  # Increase crown count for this group
-
-        # If crowns are detected in this group, calculate the score
-        if crownsInGroup > 0:
-            group_score = group_size * crownsInGroup
-            myscore += group_score
-            print(f"Group with tile ID {group_tile_id} has {crownsInGroup} crowns. Group score: {group_score}")
+            # If crowns are detected in this group, calculate the score
+            if crownsInGroup > 0:
+                group_score = group_size * crownsInGroup
+                myscore += group_score
+                print(f"Group ID {currentId} has {crownsInGroup} crowns. Group score: {group_score}")
 
 # Print the final score
 print("Final score:", myscore)
-
-
 
 

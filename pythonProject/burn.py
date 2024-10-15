@@ -46,17 +46,24 @@ def ignite(tileType, y, x, grid, label_id):
 def countpoints(path):
     img = cv2.imread(path)
     img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    grid = tileGrid(img,img_hsv)
+    grid = tileGrid(img, img_hsv)
     currentId = 0
+    connected_groups = {}  # Create a dictionary to store connected tile groups
 
     for y, rows in enumerate(grid):
         for x, cell in enumerate(rows):
-            if cell[2] is None:
+            if cell[2] is None:  # Assuming the third item is the ID
                 label = cell[1]
                 size, connected_tiles = ignite(label, y, x, grid, currentId)
-                coordinates = (y, x) # was used for the single coordinates, sadly not used, but easily can below.
-                print(size, "Blocks are connected", "with id", currentId, label, connected_tiles) # prints stuff.
-                currentId += 1
+                coordinates = (y, x)  # Use this if needed for debugging
+                print(size, "Blocks are connected", "with id", currentId, label, connected_tiles)
+
+                # Store the connected tiles in the dictionary
+                connected_groups[currentId] = connected_tiles
+                currentId += 1  # Increment the ID for the next group
+
+    return connected_groups  # Return the connected groups at the end
+
 
 def getConnectedTiles():
     return importanttiles
