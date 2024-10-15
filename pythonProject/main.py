@@ -10,30 +10,35 @@
     - HIGH FIVE
 '''
 from pythonProject.New import load_and_process_image, tileGrid
-from pythonProject.burn import countpoints, ignite
-from pythonProject.target import crown, divide_into_grid, match_templates, load_templates
+from pythonProject.burn import countpoints
+from pythonProject.target import crown, load_templates
 from pythonProject.target import point_calculator  # Import the new function
 
-# Set the image path to the specific image you want to calculate
-image_path = 'Croppedandperspectivecorrectedboards/1.jpg'
+from pythonProject.New import load_and_process_image, tileGrid
+from pythonProject.burn import countpoints
+from pythonProject.target import crown, load_templates
+from pythonProject.target import point_calculator  # Import the new function
 
-# Original functionality preserved
-# Load and process the image
-img, img_hsv = load_and_process_image(image_path)
+def main():
+    # Set the image path to the specific image you want to calculate
+    image_path = 'Croppedandperspectivecorrectedboards/1.jpg'
 
-# Call the original `countpoints` function
-countpoints(image_path)
+    # Load and process the image
+    img, img_hsv = load_and_process_image(image_path)
 
-# Call the original `crown` function
-crown(image_path)
+    # Call the original `countpoints` function
+    countpoints(image_path)
 
-# --- New functionality starts here ---
+    # Call the original `crown` function
+    crown(image_path)
 
-# Step 1: Generate a grid using `tileGrid`
-grid = tileGrid(img, img_hsv)
+    # --- New functionality starts here ---
 
-# Step 2: Load crown templates (update paths to crown template images as needed)
-template_files = [
+    # Step 1: Generate a grid using `tileGrid`
+    grid = tileGrid(img, img_hsv)
+
+    # Step 2: Load crown templates
+    template_files = [
         "1 Krone1 Desert.jpg",
         "1 Krone1 Desert 90.jpg", "1 Krone1 Desert 180.jpg", "1 Krone1 Desert 270.jpg",
         "1 Krone1 Grass.jpg",
@@ -53,14 +58,18 @@ template_files = [
         "4Krone1Sand.jpg",
         "4Krone1Sand90.jpg", "4Krone1Sand180.jpg", "4Krone1Sand270.jpg",
         "8Krone1Sand.jpg",
-        "8Krone1Sand90.jpg","8Krone1Sand180.jpg","8Krone1Sand270.jpg",
+        "8Krone1Sand90.jpg", "8Krone1Sand180.jpg", "8Krone1Sand270.jpg",
         "9Krone1Sand.jpg",
         "9Krone1Sand90.jpg", "9Krone1Sand180.jpg", "9Krone1Sand270.jpg"
     ]  # Update with actual paths
-templates = load_templates(template_files)
+    templates = load_templates(template_files)
 
-# Step 3: Call the new function to multiply connected blocks with crowns
-result = point_calculator(image_path, grid, templates)
+    # Step 3: Call the new function to multiply connected blocks with crowns
+    result = point_calculator(image_path, grid, templates)
 
-# Print the new result
-print(f'Total multiplier (connected blocks * crowns): {result}')
+    # Print the new result
+    print(f'Total multiplier (connected blocks * crowns): {result}')
+
+# Entry point
+if __name__ == '__main__':
+    main()

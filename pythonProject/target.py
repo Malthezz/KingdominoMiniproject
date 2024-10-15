@@ -3,6 +3,7 @@ import numpy as np
 
 from pythonProject.NMS import non_max_suppression_fast
 from pythonProject.New import tileGrid, label_color
+from pythonProject.main import image_path
 
 
 #This part loads the templates put in Crown():
@@ -52,15 +53,11 @@ def divide_into_grid(image, rows=5, cols=5):
 
     return grid_coords
 
-#Displays the rectangles aka the grid for each tile.
+'''#Displays the rectangles aka the grid for each tile.
 def display_image_rectangle(image, rectangle_coords):
     for rect in rectangle_coords:
         top_left, top_right, bottom_left, bottom_right = rect
-        cv2.rectangle(image, top_left, bottom_right, (0, 255, 255), 2)
-
-    cv2.imshow('Detected', image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+        cv2.rectangle(image, top_left, bottom_right, (0, 255, 255), 2)'''
 
 #This right here finds where the crowns are located into the grid.
 def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
@@ -80,8 +77,8 @@ def crowns_to_grid(rectangle_coords, grid_coords, rows, cols):
                 current_crown_id += 1
                 break
                 
-                sorted_crowns = sorted(crown_ids, key=lambda grid: (row, col, rect))
-                print(sorted_crowns)
+                # sorted_crowns = sorted(crown_ids, key=lambda grid: (row, col, rect))
+                # print(sorted_crowns)
 
     return crown_count, crown_ids
 
@@ -99,7 +96,47 @@ def display_image_with_rectangles_and_grid(image, rectangle_coords, grid_coords)
 
     cv2.imshow('Detected Crowns with Grid', image)
     cv2.waitKey(0)
-    cv2.destroyAllWindows()
+
+def point_calculator(image_path, crown_ids, templates, grid):
+    from pythonProject.burn import ignite
+    # Step 1: Count the connected blocks using `countpoints`.
+    connected_blocks = []
+    currentId = 0
+
+    # Step 1: Count the connected blocks
+    for y, rows in enumerate(grid):
+        for x, cell in enumerate(rows):
+            if cell[2] is None:
+                label = cell[1]
+                size, connected_tiles = ignite(label, y, x, grid, currentId)
+                connected_blocks.append((size, connected_tiles))  # Store size and connected block tiles
+                currentId += 1
+
+    # Step 2: Detect crowns
+    img_gray = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    crown_coords = match_templates(img_gray, templates)
+
+    total_sum = 0
+
+    # Step 3: For each connected block, multiply its size by the number of crowns within it
+    for size, tiles in connected_blocks:
+        crown_count = 0
+        for tile in tiles:
+            y, x = tile
+            for crown_id, position in crown_ids.items():
+                crown_row, crown_col = position
+
+                if crown_row == y and crown_col == x:
+                    crown_count += 1
+
+        # If there are crowns in this block, multiply block size by the crown count and add to total sum
+        if crown_count > 0:
+            block_value = size * crown_count
+            print(f"Block of size {size} has {crown_count} crowns, value: {block_value}")
+            total_sum += block_value
+
+    print(f"Total sum: {total_sum}")
+    return total_sum
 
 #All the good stuff is put in here, so everything works elsewhere :) (hopefully)
 def crown(image):
@@ -132,7 +169,7 @@ def crown(image):
         "9Krone1Sand.jpg",
         "9Krone1Sand90.jpg", "9Krone1Sand180.jpg", "9Krone1Sand270.jpg"
     ]
-    templates = []
+    templates = load_templates(template_files)
 
     for template_file in template_files:
         template = cv2.imread(template_file, cv2.IMREAD_GRAYSCALE)
@@ -144,7 +181,8 @@ def crown(image):
 
     #NMS NON MAXIMUM SUPRESSON
     # Apply non-max suppression to reduce overlapping detections
-    rectangle_coords = np.array([[
+    if len(rectangle_coords) > 0:
+        rectangle_coords = np.array([[
         rect[0][0], rect[0][1], rect[3][0], rect[3][1]
     ] for rect in rectangle_coords])  # Convert to (x1, y1, x2, y2) format
 
@@ -164,11 +202,15 @@ def crown(image):
     # Divide the image into a grid
     grid_coords = divide_into_grid(img_rgb, 5, 5)
 
-    # Map the crowns to their corresponding grid cells
-
     crown_count, crown_ids = crowns_to_grid(rectangle_coords, grid_coords, rows, cols)
 
-    # Print crown count and IDs
+    total_score = point_calculator(image_path, crown_ids, templates, grid_coords)
+
+    print("Total Score:", total_score)
+
+    return crown_ids
+
+    '''# Print crown count and IDs
     print("Crown count in each grid cell:")
     for row in crown_count:
         print(row)
@@ -177,46 +219,6 @@ def crown(image):
         print(f"Crown ID {crown_id} at grid position {position}")
 
     # Display the image with matched template rectangles and grid
-    display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords)
+    display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords)'''
 
 
-def point_calculator(image_path, grid, templates):
-    from pythonProject.burn import ignite
-    # Step 1: Count the connected blocks using `countpoints`.
-    connected_blocks = []
-    currentId = 0
-
-    # Step 1: Count the connected blocks
-    for y, rows in enumerate(grid):
-        for x, cell in enumerate(rows):
-            if cell[2] is None:
-                label = cell[1]
-                size, connected_tiles = ignite(label, y, x, grid, currentId)
-                connected_blocks.append((size, connected_tiles))  # Store size and connected block tiles
-                currentId += 1
-
-    # Step 2: Detect crowns
-    img_gray = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    crown_coords = match_templates(img_gray, templates)
-
-    total_sum = 0
-
-    # Step 3: For each connected block, multiply its size by the number of crowns within it
-    for size, tiles in connected_blocks:
-        crown_count = 0
-        for tile in tiles:
-            y, x = tile
-            for crown in crown_coords:
-                top_left, top_right, bottom_left, bottom_right = crown
-                # Check if the tile falls within the crown's bounding box
-                if top_left[0] <= x <= bottom_right[0] and top_left[1] <= y <= bottom_right[1]:
-                    crown_count += 1
-
-        # If there are crowns in this block, multiply block size by the crown count and add to total sum
-        if crown_count > 0:
-            block_value = size * crown_count
-            print(f"Block of size {size} has {crown_count} crowns, value: {block_value}")
-            total_sum += block_value
-
-    print(f"Total sum: {total_sum}")
-    return total_sum
