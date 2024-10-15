@@ -182,7 +182,6 @@ def crown(image):
 
 def point_calculator(image_path, grid, templates):
     from pythonProject.burn import ignite
-    # Step 1: Count the connected blocks using `countpoints`.
     connected_blocks = []
     currentId = 0
 
@@ -200,17 +199,21 @@ def point_calculator(image_path, grid, templates):
     crown_coords = match_templates(img_gray, templates)
 
     total_sum = 0
+    crown_ids = {}
+    total_crown_count = 0  # Initialize total crown count
 
     # Step 3: For each connected block, multiply its size by the number of crowns within it
     for size, tiles in connected_blocks:
-        crown_count = 0
+        crown_count = 0  # Initialize crown count for the current block
         for tile in tiles:
             y, x = tile
-            for crown in crown_coords:
+            for crown_id, crown in enumerate(crown_coords):  # Use enumerate to keep track of crown IDs
                 top_left, top_right, bottom_left, bottom_right = crown
                 # Check if the tile falls within the crown's bounding box
                 if top_left[0] <= x <= bottom_right[0] and top_left[1] <= y <= bottom_right[1]:
                     crown_count += 1
+                    total_crown_count += 1  # Increment total crown count
+                    crown_ids[total_crown_count] = (y, x)  # Store the crown ID with its position
 
         # If there are crowns in this block, multiply block size by the crown count and add to total sum
         if crown_count > 0:
@@ -219,4 +222,4 @@ def point_calculator(image_path, grid, templates):
             total_sum += block_value
 
     print(f"Total sum: {total_sum}")
-    return total_sum
+    return total_sum, total_crown_count, crown_ids  # Return total_sum, total_crown_count, and crown_ids
