@@ -107,6 +107,8 @@ def crown(image):
     # Convert it to grayscale
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
 
+    crown_list = []
+
     # List of template file names
     template_files = [
         "1 Krone1 Desert.jpg",
@@ -175,10 +177,13 @@ def crown(image):
     print("Crown IDs with their respective grid positions:")
     for crown_id, position in crown_ids.items():
         print(f"Crown ID {crown_id} at grid position {position}")
+        crown_list.append(position)
 
     # Display the image with matched template rectangles and grid
     display_image_with_rectangles_and_grid(img_rgb.copy(), rectangle_coords, grid_coords)
 
+    sorted_crown_list = sorted(crown_list, key=lambda coord: (coord[0], coord[1]))
+    return sorted_crown_list
 
 def point_calculator(image_path, grid, templates):
     from pythonProject.burn import ignite

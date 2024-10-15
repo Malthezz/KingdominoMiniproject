@@ -25,7 +25,8 @@ img, img_hsv = load_and_process_image(image_path)
 countpoints(image_path)
 
 # Call the original `crown` function
-crown(image_path)
+crown_detect = crown(image_path)
+print(crown_detect)
 
 # --- New functionality starts here ---
 
